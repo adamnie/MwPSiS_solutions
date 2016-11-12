@@ -1,4 +1,11 @@
+*
+
+#cplex related extensions
 !*.xml
 !*.mod
 !*.ops
-!*.datg
+!*.dat
+!*.project
+!*.oplproject
+
+!.gitignore
