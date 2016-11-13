@@ -30,20 +30,24 @@ subject to {
 	  	Amount[p]*Proteins[p] >= DailyProteinDemand;
 }
 
+string UNIT = "g";
+string CURRENCY = "zloty";
+
 execute {
+
 	function printAmount(product){
 		write("    ");
-		write(product); write(": "); write(100*Amount[product]);write("g")
+		write(product, ": ", 100*Amount[product], UNIT);
 		writeln();
 	}
 	
-	writeln("Optimized for: ", DailyProteinDemand, " proteins [g]")
+	writeln("Optimized for: ", DailyProteinDemand, " proteins [", UNIT, "]");
 	
 	writeln("Amounts: ");
   	for (var p in Products) {
     	printAmount(p);
   	}
 
-	writeln("Total cost: ", cplex.getObjValue(), " zloty");
+	writeln("Total cost: ", cplex.getObjValue(), " ", CURRENCY);
 	
 }
