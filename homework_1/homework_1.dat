@@ -9,6 +9,8 @@
  // DRI is 0.8 * body weight, which should be around 56
  // but it would give uninteresting results, so:
  DailyProteinDemand = 56;
+ 
+ MaxDailyFatDemand = 27;
 
  // in 100 grams 
  Proteins = #[
@@ -20,6 +22,18 @@
  	Moose: 79.5
  	Whey: 79.5
  	Banana: 1.1
+ ]#;
+ 
+ // in 100 grams
+  Fats = #[
+ 	Bread: 0.7
+ 	Milk: 0.6
+ 	Chicken_egg: 3.3
+ 	Beef: 6
+ 	Lamb: 9
+ 	Moose: 11
+ 	Whey: 0.2
+ 	Banana: 0.1
  ]#; 
  
  // in zlotys per 100 grams
@@ -33,14 +47,15 @@
  	Whey: 2.5
  	Banana: 0.35
  ]#;
+ 
  // in 100 grams
  MaxIntake = #[
- 	Bread: 2
+ 	Bread: 4
  	Milk: 3.5
  	Chicken_egg: 4
- 	Beef: 2
- 	Lamb: 2
- 	Moose: 2
- 	Whey: 0.60
+ 	Beef: 4
+ 	Lamb: 4
+ 	Moose: 4
+ 	Whey: 0.2
  	Banana: 1.5
  ]#;

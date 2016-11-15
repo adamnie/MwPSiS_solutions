@@ -6,8 +6,10 @@
 
 {string} Products = ...;
 int DailyProteinDemand = ...;
+int MaxDailyFatDemand = ...;
 
 float Proteins[Products] = ...;
+float Fats[Products] = ...;
 float Cost[Products] = ...;
 float MaxIntake[Products] = ...;
 
@@ -28,6 +30,10 @@ subject to {
   	hunger:
 	sum(p in Products)
 	  	Amount[p]*Proteins[p] >= DailyProteinDemand;
+	  	
+	obesity:
+	sum(p in Products)
+	  	Amount[p]*Fats[p] <= MaxDailyFatDemand;
 }
 
 string UNIT = "g";
