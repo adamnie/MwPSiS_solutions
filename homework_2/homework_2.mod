@@ -21,7 +21,7 @@ int n = ...;
 {Node} Source = ...;
 {Node} Other = ...;
 
-dvar float+ x[Links] in 0..1;
+dvar int+ x[Links];
  
  
 minimize
@@ -44,7 +44,11 @@ subject to {
 }
 
 execute {
+	writeln("Znaleziono nastęujące ścieżki: ");
+
 	for(var link in Links){
-	  writeln(link.name, " ", x[link]);
- 	};	  
+		if (x[link] > 0){
+			writeln(link.name);
+		}
+	}  
 }
