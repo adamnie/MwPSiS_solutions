@@ -18,6 +18,7 @@ tuple Link {
 int n = ...;
 
 {Link} Links = ...;
+{Node} Nodes = ...;
 {Node} Source = ...;
 {Node} Other = ...;
 

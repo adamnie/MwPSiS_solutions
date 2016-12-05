@@ -2,11 +2,9 @@
 	<version>1.0</version>
 	<configs>
 		<config category="opl" default="true" name="Configuration1">
-			<ref name="homework_3.mod" type="model">
-			</ref>
 			<ref name="homework_3.ops" type="setting">
 			</ref>
-			<ref name="homework_3.dat" type="data">
+			<ref name="main.mod" type="model">
 			</ref>
 		</config>
 	</configs>
