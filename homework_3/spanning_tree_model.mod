@@ -22,7 +22,7 @@ int n = ...;
 {Node} Source = ...;
 {Node} Other = ...;
 
-{Node} Neighbours[node in Nodes] = { node | link in Links: link.output_node == node};
+{Node} Neighbours[node in Nodes] = { link.output_node | link in Links: link.output_node == node};
  
 
 range S = 1.. ftoi(round(2^n));
@@ -50,12 +50,12 @@ subject to {
 	// There must be an edge for every cut, #cutConstraint for spanning tree, checkout wikipedia
 	cutConstraint[s]:
 		sum(node_in in Subsets[s], node_out in Neighbours[node_in] inter Compl[s])
-		  x[{link | link in Links: link.input_node == node_in && link.output_node==node_out}(0)] +
+		  x[first({link | link in Links : link.input_node == node_in && link.output_node==node_out})] +
 		sum(node_in in Compl[s], node_out in Neighbours[node_in] inter Subsets[s])
-		  x[{link | link in Links: link.input_node == node_in && link.output_node==node_out}] >= 1; 		  
+		  x[first({link | link in Links: link.input_node == node_in && link.output_node==node_out})] >= 1; 		  
 	}	
 	
-	// number of used links must be lower than sumber of links, otherwise we have a loop
+	// number of used links must be lower than number of all links, otherwise we have a loop
  	global:
 	sum(link in Links) x[link] == n-1;
  	

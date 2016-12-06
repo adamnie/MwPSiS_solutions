@@ -37,7 +37,6 @@ main{
 		data.Other = thisOplModel.others;
 		
 		write("\tDone!\n");
-		
 		return data;
 	};
 
@@ -74,10 +73,29 @@ main{
 		
 		opl_spanning_tree_model.addDataSource(data);
 		opl_shortest_path_model.addDataSource(data);
+		
 	
 		if(cplex_shortest_path_model.solve() && cplex_spanning_tree_model.solve()){
 			writeln("Both models were solved! for node ", node);
-			writeln(opl_shortest_path_model.Source, " ", opl_spanning_tree_model.Source)		
+			var shortest_path_solution = opl_shortest_path_model.x;
+			var spanning_tree_solution = opl_spanning_tree_model.x;
+			
+			for(var i in shortest_path_solution){
+						
+			// product 0 means that at least one on them is zero, but 
+			// sum greater than zero means that at least one of them is not zero
+			// so they must be different. I done it like this because we we need them
+			// both to be greater than 0, not necessary equal
+				if(shortest_path_solution[i] * spanning_tree_solution == 0
+				&& shortest_path_solution[i] + spanning_tree_solution > 0){
+					writeln("Nie działa dla Node'a: ", node);
+				} else {
+					writeln("Cokolwiek!");				
+				}
+			}
+		
+		} else {
+			writeln("Not solved :( ");		
 		}
 	
 	}
