@@ -62,9 +62,7 @@ subject to {
 }
 
 execute {
-
 	writeln("Wybrano nastęujące ścieżki: ");
-
 	for(var link in Links){
 		if (x[link] > 0){
 			writeln(" ", link.name);

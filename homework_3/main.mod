@@ -4,14 +4,6 @@
  * Creation Date: Dec 3, 2016 at 4:48:17 PM
  *********************************************/
 
-
-// wczytaj wszystie nody 
-// dla każdego node :
-//  - podmien source node
-// 	- wywołaj shortest_path_model (wezel) <zwraca list of Links>
-// 	- wywołaj spanning_tree_model (wezel) <zwraca list of Links>
-//  - for link in Links sprawdz czy nalezy do obydwu i czyli liczba loinkow w modelach sie zgadza
-
 tuple Node {
 	key int id;
 };
@@ -48,21 +40,22 @@ main{
 	var opl_spanning_tree_model = new IloOplModel(spanning_tree_definition, cplex_spanning_tree_model);
 	write("\tDone!\n");
 	
-	var opl_original_model = new IloOplModel(spanning_tree_definition, cplex_spanning_tree_model);
-	
-	var model_input_data_source = new IloOplDataSource("graph.dat");
 
-	opl_shortest_path_model.addDataSource(model_input_data_source);
-	opl_spanning_tree_model.addDataSource(model_input_data_source);
 	
 	write("Generating models...");
+	var model_input_data_source = new IloOplDataSource("graph.dat");
+	opl_shortest_path_model.addDataSource(model_input_data_source);
+	opl_spanning_tree_model.addDataSource(model_input_data_source);
 	opl_shortest_path_model.generate();
 	opl_spanning_tree_model.generate();
 	write("\tDone!\n");
 	
+	
 	var Nodes = opl_spanning_tree_model.Nodes;
 
 	for( var node in Nodes){
+		writeln("==== Solving for node ", node, " ====")	
+	
 		var data = prepareData(node, Nodes);	
 		
 		opl_spanning_tree_model.addDataSource(data);
@@ -73,23 +66,29 @@ main{
 			writeln("Both models were solved! for node ", node);
 			var shortest_path_solution = opl_shortest_path_model.x;
 			var spanning_tree_solution = opl_spanning_tree_model.x;
+			var links_are_the_same = true;
 			
 			for(var i in shortest_path_solution){
-						
-			// product 0 means that at least one on them is zero, but 
-			// sum greater than zero means that at least one of them is not zero
-			// so they must be different. I done it like this because we we need them
-			// both to be greater than 0, not necessary equal
+				// product 0 means that at least one on them is zero, but 
+				// sum greater than zero means that at least one of them is not zero
+				// so they must be different. I done it like this because we we need them
+				// both to be greater than 0, not necessary equal	
 				if(shortest_path_solution[i] * spanning_tree_solution[i] == 0
 				&& shortest_path_solution[i] + spanning_tree_solution[i] > 0){
-					writeln("Nie działa dla Node'a: ", node);
-				} else {
-					writeln("Cokolwiek!");				
+					links_are_the_same = false;
 				}
+			}
+			
+			if(links_are_the_same){
+				writeln("Links are the same for root: ", node);			
+			} else {
+				writeln("Links are different for root: ", node);
+				writeln("Shortest path solution: ", shortest_path_solution);
+				writeln("Spanning tree solution: ", spanning_tree_solution);
 			}
 		
 		} else {
-			writeln("Not solved :( ");		
+			writeln("Not solved!");		
 		}
 	
 	}
