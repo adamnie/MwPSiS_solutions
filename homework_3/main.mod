@@ -16,25 +16,19 @@ tuple Node {
 	key int id;
 };
 
-{Node} others;
-
+{Node} sources;
 main{
 
 	thisOplModel.generate();
 
-	function prepareData(source, nodes){
+	function prepareData(source){
 		write("Preparing data for node: ", source);
-		thisOplModel.others.clear();
 		
-		for(var node in nodes){
-			if(source != node) {
-				thisOplModel.others.add(node);			
-			}		
-		}
+		thisOplModel.sources.clear();
+		thisOplModel.sources.add(source);
 		
 		var data = new IloOplDataElements();
-		data.Source = source;
-		data.Other = thisOplModel.others;
+		data.Source = thisOplModel.sources;
 		
 		write("\tDone!\n");
 		return data;

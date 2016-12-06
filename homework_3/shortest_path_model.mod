@@ -20,7 +20,7 @@ int n = ...;
 {Link} Links = ...;
 {Node} Nodes = ...;
 {Node} Source = ...;
-{Node} Other = ...;
+{Node} Others = Nodes diff Source;
 
 dvar int+ x[Links];
  
@@ -38,7 +38,7 @@ subject to {
  	}
  	
  	others:
- 	forall(node in Other){
+ 	forall(node in Others){
   	  sum (link in Links: link.input_node == node) (x[link]) - sum(link in Links: link.output_node == node) (x[link]) == -1;  
  	}
  	

@@ -7,6 +7,18 @@
 			<ref name="main.mod" type="model">
 			</ref>
 		</config>
+		<config category="opl" default="false" name="Configuration2">
+			<ref name="spanning_tree_model.mod" type="model">
+			</ref>
+			<ref name="graph.dat" type="data">
+			</ref>
+		</config>
+		<config category="opl" default="false" name="Configuration3">
+			<ref name="shortest_path_model.mod" type="model">
+			</ref>
+			<ref name="graph.dat" type="data">
+			</ref>
+		</config>
 	</configs>
 	
 </project>

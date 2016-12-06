@@ -20,18 +20,19 @@ int n = ...;
 {Link} Links = ...;
 {Node} Nodes = ...;
 {Node} Source = ...;
-{Node} Other = ...;
 
-{Node} Neighbours[node in Nodes] = { link.output_node | link in Links: link.output_node == node};
+{Node} Others = Nodes diff Source; 
+
+{Node} Neighbours[node in Others] = { link.output_node | link in Links: link.output_node == node};
  
 
 range S = 1.. ftoi(round(2^n));
 
 // All subsets of vertices
-{Node} Subsets[s in S] = { node | node in Nodes:
+{Node} Subsets[s in S] = { node | node in Others:
 					(s div ftoi(round(2^node.id-1))) mod 2 == 1 };
 
-{Node} Compl[s in S] = Nodes diff Subsets[s]; 					
+{Node} Compl[s in S] = Others diff Subsets[s]; 					
 
 dvar boolean x[Links];
 
