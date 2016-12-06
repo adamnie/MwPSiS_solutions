@@ -55,11 +55,12 @@ subject to {
 		  x[first({link | link in Links: link.input_node == node_in && link.output_node==node_out})] >= 1; 		  
 	}	
 	
-	// number of used links must be lower than number of all links, otherwise we have a loop
  	global:
 	sum(link in Links) x[link] == n-1;
  	
 }
+
+{string} Used = {link.name | link in Links: x[link] == 1};
 
 execute {
 	writeln("Wybrano nastęujące ścieżki: ");

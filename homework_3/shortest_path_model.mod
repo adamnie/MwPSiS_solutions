@@ -44,6 +44,8 @@ subject to {
  	
 }
 
+{string} Used = {link.name | link in Links: x[link] > 0};
+
 execute {
 	writeln("Wybrano nastęujące ścieżki: ");
 

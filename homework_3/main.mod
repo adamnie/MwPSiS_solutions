@@ -13,6 +13,7 @@ main{
 
 	thisOplModel.generate();
 
+	//helper functions
 	function prepareData(source){
 		write("Preparing data for node: ", source);
 		
@@ -40,8 +41,6 @@ main{
 	var opl_spanning_tree_model = new IloOplModel(spanning_tree_definition, cplex_spanning_tree_model);
 	write("\tDone!\n");
 	
-
-	
 	write("Generating models...");
 	var model_input_data_source = new IloOplDataSource("graph.dat");
 	opl_shortest_path_model.addDataSource(model_input_data_source);
@@ -50,11 +49,13 @@ main{
 	opl_spanning_tree_model.generate();
 	write("\tDone!\n");
 	
-	
 	var Nodes = opl_spanning_tree_model.Nodes;
+	var Links = opl_spanning_tree_model.Links;
 
-	for( var node in Nodes){
-		writeln("==== Solving for node ", node, " ====")	
+	for(var node in Nodes){
+		
+		write("\n\n");
+		writeln("============= Solving for node ", node, " =============");
 	
 		var data = prepareData(node, Nodes);	
 		
@@ -63,7 +64,7 @@ main{
 		
 	
 		if(cplex_shortest_path_model.solve() && cplex_spanning_tree_model.solve()){
-			writeln("Both models were solved! for node ", node);
+			writeln("Both models were solved!");
 			var shortest_path_solution = opl_shortest_path_model.x;
 			var spanning_tree_solution = opl_spanning_tree_model.x;
 			var links_are_the_same = true;
@@ -80,17 +81,18 @@ main{
 			}
 			
 			if(links_are_the_same){
-				writeln("Links are the same for root: ", node);			
+				writeln("Links are the same for root: ", node, "!");			
 			} else {
-				writeln("Links are different for root: ", node);
-				writeln("Shortest path solution: ", shortest_path_solution);
-				writeln("Spanning tree solution: ", spanning_tree_solution);
+				writeln("Links are different for root: ", node, "!");
+				writeln("Shorstest path: ", opl_shortest_path_model.Used);
+				writeln("Spanning tree: ", opl_spanning_tree_model.Used);
 			}
 		
 		} else {
 			writeln("Not solved!");		
 		}
-	
+		
+		writeln("======== Finished  solving for node ", node, " ========");
 	}
 }
 
