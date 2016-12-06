@@ -22,8 +22,21 @@ int n = ...;
 {Node} Source = ...;
 {Node} Other = ...;
 
-dvar int+ x[Links];
+{Node} Neighbours[node in Nodes] = { node | link in Links: link.output_node == node};
  
+
+range S = 1.. ftoi(round(2^n));
+
+// All subsets of vertices
+{Node} Subsets[s in S] = { node | node in Nodes:
+					(s div ftoi(round(2^node.id-1))) mod 2 == 1 };
+
+{Node} Compl[s in S] = Nodes diff Subsets[s]; 					
+
+dvar boolean x[Links];
+
+
+ constraint cutConstraint[S];
  
 minimize
   sum(link in Links)
@@ -32,15 +45,19 @@ minimize
     
 subject to {
 
-	source:
-	forall(node in Source){
-  	  sum (link in Links: link.input_node == node) (x[link]) - sum(link in Links: link.output_node == node) (x[link]) == n-1;  
- 	}
- 	
- 	others:
- 	forall(node in Other){
-  	  sum (link in Links: link.input_node == node) (x[link]) - sum(link in Links: link.output_node == node) (x[link]) == -1;  
- 	}
+	forall(s in S : 0 < card(Subsets[s]) < n){
+
+	// There must be an edge for every cut, #cutConstraint for spanning tree, checkout wikipedia
+	cutConstraint[s]:
+		sum(node_in in Subsets[s], node_out in Neighbours[node_in] inter Compl[s])
+		  x[{link | link in Links: link.input_node == node_in && link.output_node==node_out}(0)] +
+		sum(node_in in Compl[s], node_out in Neighbours[node_in] inter Subsets[s])
+		  x[{link | link in Links: link.input_node == node_in && link.output_node==node_out}] >= 1; 		  
+	}	
+	
+	// number of used links must be lower than sumber of links, otherwise we have a loop
+ 	global:
+	sum(link in Links) x[link] == n-1;
  	
 }
 
