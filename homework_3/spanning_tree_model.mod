@@ -23,8 +23,7 @@ int n = ...;
 
 {Node} Others = Nodes diff Source; 
 
-{Node} Neighbours[node in Others] = { link.output_node | link in Links: link.output_node == node};
- 
+{Node} Neighbours[node in Nodes] = { link.output_node | link in Links: link.input_node == node};
 
 range S = 1.. ftoi(round(2^n));
 
@@ -32,12 +31,12 @@ range S = 1.. ftoi(round(2^n));
 {Node} Subsets[s in S] = { node | node in Others:
 					(s div ftoi(round(2^node.id-1))) mod 2 == 1 };
 
-{Node} Compl[s in S] = Others diff Subsets[s]; 					
+{Node} Compl[s in S] = Nodes diff Subsets[s]; 					
 
 dvar boolean x[Links];
 
 
- constraint cutConstraint[S];
+constraint cutConstraint[S];
  
 minimize
   sum(link in Links)
@@ -63,6 +62,7 @@ subject to {
 }
 
 execute {
+
 	writeln("Wybrano nastęujące ścieżki: ");
 
 	for(var link in Links){

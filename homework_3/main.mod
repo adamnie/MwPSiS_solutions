@@ -80,8 +80,8 @@ main{
 			// sum greater than zero means that at least one of them is not zero
 			// so they must be different. I done it like this because we we need them
 			// both to be greater than 0, not necessary equal
-				if(shortest_path_solution[i] * spanning_tree_solution == 0
-				&& shortest_path_solution[i] + spanning_tree_solution > 0){
+				if(shortest_path_solution[i] * spanning_tree_solution[i] == 0
+				&& shortest_path_solution[i] + spanning_tree_solution[i] > 0){
 					writeln("Nie działa dla Node'a: ", node);
 				} else {
 					writeln("Cokolwiek!");				
