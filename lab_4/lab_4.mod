@@ -4,11 +4,11 @@
  * Creation Date: Dec 6, 2016 at 3:05:01 PM
  *********************************************/
 tuple Node {
-	key int id;
+	int id;
 };
  
 tuple Link {
-	key string name;
+	string name;
 	Node input_node;
 	Node output_node;
 	int cost;
@@ -16,7 +16,7 @@ tuple Link {
 };
 
 tuple Demand{
-	key string name;
+	string name;
 	Node source_node;
 	Node end_node;
 	int amount;
@@ -28,6 +28,7 @@ tuple Path{
 
 {Link} Links = ...;
 {Demand} Demands = ...;
+{Node} Nodes = ...;
 {Path} Paths = ...;
 
 int delta[Links][Demands][Paths] = ...;
