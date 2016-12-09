@@ -65,17 +65,31 @@ subject to {
 	flow_constraint:
 	forall(node_v in Nodes){
 		forall(node_w in Nodes){	
-			// to jest brzydkie, trzeba by poprawić na coś z "continue"
 			if(node_v != node_w){
 				sum(link in Links)
 					(a[link][node_w] * x[link][node_v] - b[link][node_w]*x[link][node_v]) == 
-					sum(demand in Demands : demand.source_node == node_v && demand.end_node == node_w) demand.amount;
+				sum(demand in Demands : demand.source_node == node_v && demand.end_node == node_w) demand.amount;
   			}				
  		}					  
  	}	
 }
 
 
+
+
 execute {
 
+	var tab = "  ";
+
+	writeln("Used links: ");
+	for(var link in Links){
+		var y = 0;
+		for(var node in Nodes){
+			y += x[link][node];	
+		}
+	
+		if(y != 0){
+			writeln(tab, link.name, tab, y, "/", link.capacity);		
+		}		
+	}
 }

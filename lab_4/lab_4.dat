@@ -37,8 +37,8 @@
  };
  
  Demands = {
- 	<"blue", <1>, <10>, 10>,
- 	<"green", <2>, <8>, 10>
+ 	<"blue", <1>, <10>, 5>,
+ 	<"green", <2>, <8>, 5>
  };
  
  Paths = {
@@ -50,15 +50,15 @@
  
  
  delta = #[
-   <"1_do_2", <1>, <2>, 30, 5> : #[
+     <"1_do_2", <1>, <2>, 30, 5> : #[
     <"blue", <1>, <10>, 10> : #[
       <"pierwsza"> : 0
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
       <"pierwsza"> : 0
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
@@ -69,32 +69,32 @@
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
+      <"pierwsza"> : 0
       <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
   <"2_do_3", <2>, <3>, 10, 5> : #[
     <"blue", <1>, <10>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
   <"2_do_5", <2>, <5>, 40, 5> : #[
     <"blue", <1>, <10>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
       <"pierwsza"> : 1
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
@@ -102,7 +102,7 @@
     <"blue", <1>, <10>, 10> : #[
       <"pierwsza"> : 0
       <"druga"> : 0
-      <"trzecia"> : 1
+      <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
       <"pierwsza"> : 0
@@ -113,12 +113,12 @@
   <"3_do_6", <3>, <6>, 30, 5> : #[
     <"blue", <1>, <10>, 10> : #[
       <"pierwsza"> : 1
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
@@ -136,31 +136,31 @@
   ]#
   <"4_do_6", <4>, <6>, 10, 5> : #[
     <"blue", <1>, <10>, 10> : #[
-      <"pierwsza"> : 1
+      <"pierwsza"> : 0
       <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
+      <"pierwsza"> : 0
       <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
   <"5_do_7", <5>, <7>, 10, 5> : #[
     <"blue", <1>, <10>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
   <"5_do_8", <5>, <8>, 30, 5> : #[
     <"blue", <1>, <10>, 10> : #[
-      <"pierwsza"> : 1
+      <"pierwsza"> : 0
       <"druga"> : 0
       <"trzecia"> : 0
     ]#
@@ -173,12 +173,12 @@
   <"6_do_7", <6>, <7>, 15, 5> : #[
     <"blue", <1>, <10>, 10> : #[
       <"pierwsza"> : 1
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
@@ -197,12 +197,12 @@
   <"7_do_9", <7>, <9>, 45, 5> : #[
     <"blue", <1>, <10>, 10> : #[
       <"pierwsza"> : 0
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
       <"pierwsza"> : 0
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
@@ -213,33 +213,34 @@
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
+      <"pierwsza"> : 0
       <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
   <"8_do_10", <8>, <10>, 35, 5> : #[
     <"blue", <1>, <10>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
-      <"pierwsza"> : 1
-      <"druga"> : 1
+      <"pierwsza"> : 0
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
   <"9_do_10", <9>, <10>, 90, 5> : #[
     <"blue", <1>, <10>, 10> : #[
       <"pierwsza"> : 0
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
     <"green", <2>, <8>, 10> : #[
       <"pierwsza"> : 0
-      <"druga"> : 1
+      <"druga"> : 0
       <"trzecia"> : 0
     ]#
   ]#
+]#;
 ]#;

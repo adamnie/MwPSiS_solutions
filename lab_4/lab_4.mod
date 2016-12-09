@@ -56,10 +56,20 @@ subject to {
  	forall(link in Links){
  	 	sum(demand in Demands)
  	 	  sum(path in Paths)
- 	 	    delta[link][demand][path] == y[link];
+ 	 	    delta[link][demand][path]*x[demand][path] == y[link];
  	}		
 }
 
-execute {
 
+execute {
+	
+	var tab = "  ";
+
+	writeln("Used links: ");
+	writeln("  <name>  <used>/<max>");
+	for(var link in Links){
+		if(y[link] > 0){
+			writeln(tab, link.name, tab, y[link], "/", link.capacity);		
+		}
+	}	
 }
