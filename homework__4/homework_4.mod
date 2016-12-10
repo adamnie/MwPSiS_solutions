@@ -67,7 +67,7 @@ subject to {
 			if(node_v != node_w){
 				sum(link in Links)
 					(a[link][node_w] * x[link][node_v] - b[link][node_w]*x[link][node_v]) == 
-				sum(demand in Demands : demand.source_node == node_v && demand.end_node == node_w) (-1) * demand.amount;
+				sum(demand in Demands : demand.source_node == node_v && demand.end_node == node_w) demand.amount;
   			}				
  		}					  
  	}	

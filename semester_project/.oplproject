@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<configs>
+		<config category="opl" default="true" name="Configuration1">
+			<ref name="semester_project.mod" type="model">
+			</ref>
+			<ref name="semester_project.ops" type="setting">
+			</ref>
+			<ref name="semester_project.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>

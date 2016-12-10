@@ -56,7 +56,7 @@ subject to {
  	forall(link in Links){
  	 	sum(demand in Demands)
  	 	  sum(path in Paths)
- 	 	    delta[link][demand][path]*x[demand][path] == y[link];
+ 	 	    (delta[link][demand][path]*x[demand][path]) == y[link];
  	}		
 }
 
