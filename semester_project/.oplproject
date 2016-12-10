@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="ASCII"?><project>
 	<version>1.0</version>
 	<configs>
-		<config category="opl" default="true" name="Configuration1">
-			<ref name="semester_project.mod" type="model">
+		<config category="opl" default="false" name="GraphPartition">
+			<ref name="graph_partition_model.mod" type="model">
 			</ref>
+			<ref name="data.dat" type="data">
+			</ref>
+		</config>
+		<config category="opl" default="true" name="main">
 			<ref name="semester_project.ops" type="setting">
 			</ref>
-			<ref name="semester_project.dat" type="data">
+			<ref name="main.mod" type="model">
 			</ref>
 		</config>
 	</configs>
