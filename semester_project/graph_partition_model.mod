@@ -13,40 +13,59 @@
   	Node input_node;
   	Node output_node;
   	int cost;
-  	int capacity;
  };
  
  tuple Tenant {
  	int id; 
  };
  
+ int T = ...;
  int N = ...;
  range n = 1..N;
  
  {Arc} Arcs = ...;
  {Node} Nodes = ...;
- 
- {Tenant} Tenants = {};
- 
- execute{
-	 for(var id in n){
-	 		Tenants.add(id);
-	 } 
- };
+ {Tenant} Tenants = ...;
  
  int weights[Tenants] = ...;
  
+ {Node} Neighbours[node in Nodes] = { link.output_node | link in Arcs: link.input_node == node};
+ range S = 1.. ftoi(round(2^N));
+
+// All subsets of vertices
+{Node} Subsets[s in S] = { node | node in Nodes:
+					(s div ftoi(round(2^node.id-1))) mod 2 == 1 };
+
+{Node} Compl[s in S] = Nodes diff Subsets[s]; 
+ 
+ 
  dvar boolean x[Arcs][Tenants];
  
- minimize 
+  minimize 
 	sum(tenant_a in Tenants)
 	  sum(tenant_b in Tenants)
 		sum(arc in Arcs)
-		  (x[arc][tenant_a] == x[arc][tenant_b] == 1);		
+		  (x[arc][tenant_a] == 1 && x[arc][tenant_b] == 1);		
+	  
  
 subject to {	
 	forall(tenant in Tenants){
-		sum(arc in Arcs)
-		  arc.cost <= weights[tenant];
+		forall(arc in Arcs)
+		  arc.cost * x[arc][tenant] <= weights[tenant];
  	}	  
+ 	
+ 	forall(tenant in Tenants){
+ 	 	sum (arc in Arcs) (x[arc][tenant]) >= N-1; 
+ 	}
+ 	
+ 	forall(tenant in Tenants){
+	 	forall(s in S : 0 < card(Subsets[s]) < N){
+			sum(node_in in Subsets[s], node_out in Neighbours[node_in] inter Compl[s])
+			  x[first({link | link in Arcs : link.input_node == node_in && link.output_node==node_out})][tenant] +
+			sum(node_in in Compl[s], node_out in Neighbours[node_in] inter Subsets[s])
+			  x[first({link | link in Arcs: link.input_node == node_in && link.output_node==node_out})][tenant] >= 1; 		  
+				
+	 	}
+ 	}
+ 	
 }
