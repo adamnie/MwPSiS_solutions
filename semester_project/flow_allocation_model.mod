@@ -13,6 +13,7 @@
  	string name;
  	Node input_node;
  	Node output_node;
+ 	int cost;
  	int capacity;	 
  };
  
@@ -48,23 +49,23 @@ tuple Flow {
  
  maximize
   	sum(tenant in Tenants)
-  	  min(flow in Flows) sum(node in Nodes) lambda[tenant][flow][node];
+  	  max(flow in Flows) sum(node in Nodes) abs(lambda[tenant][flow][node]) / 2 ;
   	    
  
  subject to {
   capacity_constraint:
   forall(arc in Arcs){
   	sum(tenant in Tenants)
-  	  sum(flow in Flows: flow.tenant_id == tenant)
-  	    X[tenant][flow][arc] == arc.capacity;  
+  	  sum(flow in Flows: flow.tenant_id == tenant && x[arc][tenant] == 1)
+  	    X[tenant][flow][arc] <= arc.capacity;  
   }
-  // dodac warunek bioracy pod uwage x'a, tzn tylko dla linkow nalezacych do tenanta
+
   flow_conservation:
   forall(node in Nodes){
 	  forall(tenant in Tenants){
 	  	forall(flow in Flows: flow.tenant_id == tenant){
-			( sum(arc in Arcs: arc.input_node==node) X[tenant][flow][arc] -
-	  		sum(arc in Arcs: arc.output_node==node) X[tenant][flow][arc]) == lambda[tenant][flow][node];
+			(sum(arc in Arcs: arc.input_node==node && x[arc][tenant] == 1) X[tenant][flow][arc] -
+	  		sum(arc in Arcs: arc.output_node==node && x[arc][tenant] == 1) X[tenant][flow][arc]) == lambda[tenant][flow][node];
 	  	}  
 	  }
   }  
@@ -73,6 +74,6 @@ tuple Flow {
  }
  
  execute {
- 	writeln("Works?"); 
+
  }
  
