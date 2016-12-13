@@ -19,14 +19,27 @@
  	int id; 
  };
  
+ tuple Flow {
+  	int id;
+  	Tenant tenant_id;
+  	Node source;
+  	Node dest;
+  	float max_delay;
+  	float max_jitter;
+  	float max_packet_loss;
+ };
+ 
  int T = ...;
  int N = ...;
  range n = 1..N;
+  
  
  {Arc} Arcs = ...;
  {Node} Nodes = ...;
  {Tenant} Tenants = ...;
+ {Flow} Flows = ...;
  
+ float X[Tenants][Flows][Arcs] = ...;
  int weights[Tenants] = ...;
  
  {Node} Neighbours[node in Nodes] = { link.output_node | link in Arcs: link.input_node == node};
@@ -66,6 +79,6 @@ subject to {
 			  x[first({link | link in Arcs: link.input_node == node_in && link.output_node==node_out})][tenant] >= 1; 		  
 				
 	 	}
- 	}
+ 	} 	
  	
 }
