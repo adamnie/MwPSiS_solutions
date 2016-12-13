@@ -40,6 +40,8 @@ tuple Flow {
  {Node} Nodes = ...;
  
  int weights[Tenants] = ...;
+ 
+ int x[Arcs][Tenants] = ...;
 
  dvar float+  X[Tenants][Flows][Arcs];
  dvar float+ lambda[Tenants][Flows][Nodes];
@@ -56,7 +58,7 @@ tuple Flow {
   	  sum(flow in Flows: flow.tenant_id == tenant)
   	    X[tenant][flow][arc] == arc.capacity;  
   }
-  
+  // dodac warunek bioracy pod uwage x'a, tzn tylko dla linkow nalezacych do tenanta
   flow_conservation:
   forall(node in Nodes){
 	  forall(tenant in Tenants){

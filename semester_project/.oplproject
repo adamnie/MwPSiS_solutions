@@ -13,10 +13,16 @@
 			<ref name="main.mod" type="model">
 			</ref>
 		</config>
-		<config category="opl" default="false" name="Konfiguracja1">
+		<config category="opl" default="false" name="FlowAllocation">
 			<ref name="flow_allocation_model.mod" type="model">
 			</ref>
-			<ref name="data.dat" type="data">
+			<ref name="flow_allocation_data.dat" type="data">
+			</ref>
+		</config>
+		<config category="opl" default="false" name="QoSProvisioning">
+			<ref name="qos_provisioning_model.mod" type="model">
+			</ref>
+			<ref name="qos_provisioning_data.dat" type="data">
 			</ref>
 		</config>
 	</configs>
