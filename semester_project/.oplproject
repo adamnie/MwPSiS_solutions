@@ -13,6 +13,12 @@
 			<ref name="main.mod" type="model">
 			</ref>
 		</config>
+		<config category="opl" default="false" name="Konfiguracja1">
+			<ref name="flow_allocation_model.mod" type="model">
+			</ref>
+			<ref name="data.dat" type="data">
+			</ref>
+		</config>
 	</configs>
 	
 </project>

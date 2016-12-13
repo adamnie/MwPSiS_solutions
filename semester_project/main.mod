@@ -21,6 +21,7 @@ main {
 
 */
 
+	var data_source = new IloOplDataSource("data.dat");
     var source = new IloOplModelSource("graph_partition_model.mod");
 	var model_definition = new IloOplModelDefinition(source);
 	var cplex_object = new IloCplex();
@@ -30,17 +31,22 @@ main {
 	model.addDataSource(data_source);
 	model.generate();
 	
-	var tenants = model.Tenants;
-
 	if (cplex_object.solve()){
-		writeln(model.x);
 		for (var arc in model.x){
-			writeln("wspolna krawedz", arc, model.x[arc]);		
-//			if (model.x[arc][0] && model.x[arc][1]){
-//				writeln("wspolna krawedz", arc);
-//			}
+			writeln("krawedz", arc, model.x[arc]);		
 		}		
 	}
+
 	
+    var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
+	var flow_alloc_model_definition = new IloOplModelDefinition(flow_alloc_source);
+	var flow_alloc_cplex_object = new IloCplex();
+	var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);
+	flow_alloc_model.addDataSource(data_source);
+	flow_alloc_model.generate();
+	
+	if (flow_alloc_cplex_object.solve()){
+		writeln(flow_alloc_model.lambda);	
+	}
 
 }
