@@ -29,10 +29,8 @@
  {Tenant} Tenants = ...;
  {Node} Nodes = ...;
 
- float X[Tenants][Flows][Arcs] = ...;
- 
+ dvar float+  X[Tenants][Flows][Arcs];
  dvar float+ lambda[Tenants][Flows][Nodes];
- float helper[Tenants][Flows];
  
  maximize
   	sum(tenant in Tenants)
@@ -44,7 +42,7 @@
   forall(arc in Arcs){
   	sum(tenant in Tenants)
   	  sum(flow in  Flows)
-  	    X[tenant][flow][arc] == arc.capacity;  
+  	    X[tenant][flow][arc] <= arc.capacity;  
   }
   
   flow_conservation:
@@ -58,5 +56,9 @@
   }  
   
   
+ }
+ 
+ execute {
+ 	writeln("Kurwa mać!"); 
  }
  

@@ -49,6 +49,8 @@
 	  
  
 subject to {	
+	
+	weights_contraint:
 	forall(tenant in Tenants){
 		forall(arc in Arcs)
 		  arc.cost * x[arc][tenant] <= weights[tenant];
@@ -58,6 +60,7 @@ subject to {
  	 	sum (arc in Arcs) (x[arc][tenant]) >= N-1; 
  	}
  	
+ 	set_cut_contraint:
  	forall(tenant in Tenants){
 	 	forall(s in S : 0 < card(Subsets[s]) < N){
 			sum(node_in in Subsets[s], node_out in Neighbours[node_in] inter Compl[s])

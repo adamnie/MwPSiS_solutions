@@ -5,13 +5,28 @@
  *********************************************/
 
 main {
+/*
+	1) Wczotaj nasze dane
+	2) Uruchom model graph_partition_model
+		- Jakich danych potrzebuje?
+		- Co powinien zwrócić?
+	3) Uruchom model flow_allotion_model
+		- Jakich danych potrzebuje?
+		- Co powinien zwrócić?
+	4)  Uruchom model qos_provisioning_model
+		- Jakich danych potrzebuje?
+		- Co powinien zwrócić
+	5) Wyświetl wynik
+	
 
-	writeln("BBBB");
+*/
+
     var source = new IloOplModelSource("graph_partition_model.mod");
 	var model_definition = new IloOplModelDefinition(source);
 	var cplex_object = new IloCplex();
 	var model = new IloOplModel(model_definition, cplex_object);
 	var data_source = new IloOplDataSource("data.dat");
+	
 	model.addDataSource(data_source);
 	model.generate();
 	
@@ -27,6 +42,5 @@ main {
 		}		
 	}
 	
-	writeln("CCCC");
 
 }
