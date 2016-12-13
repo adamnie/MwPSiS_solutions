@@ -63,8 +63,7 @@
  
 subject to {	
 	forall(tenant in Tenants){
-		forall(arc in Arcs)
-		  arc.cost * x[arc][tenant] <= weights[tenant];
+		(sum(arc in Arcs) arc.cost * x[arc][tenant]) <= weights[tenant];
  	}	  
  	
  	forall(tenant in Tenants){
