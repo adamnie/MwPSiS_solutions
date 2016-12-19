@@ -21,7 +21,7 @@ main {
 
 */
 
-	var data_source = new IloOplDataSource("data.dat");
+	var data_source = new IloOplDataSource("data2.dat");
 	var current_first_stage_solution = 0;
 	var source = new IloOplModelSource("graph_partition_model.mod");
 	var model_definition = new IloOplModelDefinition(source);
