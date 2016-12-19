@@ -1,6 +1,5 @@
 *
 
-
 #cplex related extensions
 !*.xml
 !*.mod
@@ -12,5 +11,7 @@
 
 !.gitignore
 !README.md
+# helping scripts
+!*.py
 
 .metadata/*
