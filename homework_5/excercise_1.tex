@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Homework 5}
+\author{Adam Niedziałkowski}
+\date{26 December 2016}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem}
+Projektowanie szerokopasmowej sieci dostępowej można przedstawić następująco
+(zapis jest celowo nadmiarowy): w pewnej lokalizacji między cen-
+tralą a grupą klientów instaluje się węzeł pośredniczący, do którego od cen-
+trali doprowadza się kabel światłowodowy, a potem od niego rozprowadza
+sygnał za pomocą kabli miedzianych do klientów (np. z użyciem techniki
+xDSL).  Węzeł  pośredniczący  dokonuje  konwersji  optyczno-elektrycznej  i
+pracuje  jako  koncentrator.  Użycie  jak  najkrótszego  segmentu  złożonego
+z  kabli  miedzianych  byłoby  korzystne  dla  klienta,  ponieważ  im  krótszy
+taki segment, tym większa przepływność, ale z punktu widzenia operatora
+sensowne jest użycie jak nadłuższych odcinków już dawno położonej in-
+frastruktury  miedzianej  (w  związku  z  użyciem  istniejącej  infrastruktury
+pomijamy  tutaj  koszty  położenia  kabli).  Przy  założonej  przepływności,
+którą ma uzyskać każdy klient, długość okablowania miedzianego łączą-
+cego  węzeł  pośredniczący  z  klientem  nie  może  być  dłuższa  niż R km.
+Z punktu widzenia topologii fizycznej sieć złożona z wierzchołków reprezen-
+tujących centralę, węzeł pośredniczący (węzły pośredniczące) oraz klien-
+tów jest drzewem. Problem polega na znalezieniu takiego umiejscowienia
+węzłów pośredniczących obsługujących wszystkich klientów, że pojedyn-
+czy  węzeł  pośredniczący  może  obsłużyć  wszystkich  przyłączonych  klientów,
+tj.
+\subsection{Oznaczenia}
+Oznaczenia:
+
+$S - $ zbiór klientów,
+
+$J - $ zbiór potencjalnych lokalizacji węzłów pośredniczących,
+
+$J_s\subseteq J - $ zbiór lokalizacji, które znajdują się nie dalej niż $R$ km od klienta s,
+
+$T_j - $ zbiór typów urządzeń dostępnych w węźle pośredniczącym, gdyby go ulokowano w lokalizacji, $j$
+
+$q_{jt} - $ liczba klientów, których urządzenie może obsłużyć;
+$c_{jt} - $ koszt urządzenia.
+
+\subsection{Funkcja celu}
+
+\begin{equation}
+min \sum_{j \in J} \sum_{t \in T_j} c_{jt}y_{jt}
+\end{equation}
+
+\subsection{Ograniczenia}
+
+\Zadanie
+
+
+\end{document}

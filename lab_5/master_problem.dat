@@ -1,0 +1,44 @@
+/*********************************************
+ * OPL 12.5 Data
+ * Author: cholda
+ * Creation Date: 10 Dec 2014 at 16:50:52
+ *********************************************/
+
+ Nodes = {Gdansk,
+ 		Olsztyn,
+  		Warszawa,
+  		Poznan,
+  		Rzeszow,
+ 		Krakow,
+ 		Wroclaw};
+  
+ Arcs = {<Gdansk,Olsztyn>, <Olsztyn,Gdansk>,
+ 		<Gdansk, Poznan>, <Poznan, Gdansk>,
+ 		<Gdansk,Warszawa>, <Warszawa,Gdansk>,
+ 		<Krakow,Poznan>, <Poznan,Krakow>,
+ 		<Krakow,Rzeszow>, <Rzeszow,Krakow>,
+ 		<Krakow,Warszawa>, <Warszawa,Krakow>,
+ 		<Krakow,Wroclaw>, <Wroclaw,Krakow>,
+ 		<Olsztyn,Rzeszow>, <Rzeszow,Olsztyn>,
+ 		<Olsztyn,Warszawa>, <Warszawa,Olsztyn>,
+ 		<Poznan,Warszawa>, <Warszawa,Poznan>,
+ 		<Poznan,Wroclaw>, <Wroclaw,Poznan>,
+ 		<Rzeszow,Warszawa>, <Warszawa,Rzeszow>,
+ 		<Warszawa,Wroclaw>, <Wroclaw,Warszawa>};
+
+ Capacity = [155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155 155];
+
+ //Capacity = [100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100];
+ 
+ //Capacity = [99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99 99];
+ 
+ //Capacity = [10 10 10 10 2500 2500 10 10 10 10 2500 2500 10 10 10 10 2500 2500 2500 2500 10 10 2500 2500 2500 2500];
+
+ //Capacity = [15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15];
+ 
+ // Capacity = [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1];
+ 
+ Demands = {<Gdansk,Warszawa>, <Krakow,Warszawa>, <Olsztyn,Warszawa>, <Poznan,Warszawa>, <Rzeszow,Warszawa>, <Wroclaw,Warszawa>
+ 			<Warszawa,Gdansk>, <Warszawa,Krakow>, <Warszawa,Olsztyn>, <Warszawa,Poznan>, <Warszawa,Rzeszow>, <Warszawa,Wroclaw>};
+ 
+ Volume = [100 100 100 100 100 100 100 100 100 100 100 100];

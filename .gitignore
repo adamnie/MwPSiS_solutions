@@ -15,3 +15,7 @@
 !*.py
 
 .metadata/*
+
+#LaTeX related files
+!*.tex
+!*.pdf
