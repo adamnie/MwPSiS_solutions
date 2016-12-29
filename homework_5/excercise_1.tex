@@ -52,7 +52,76 @@ min \sum_{j \in J} \sum_{t \in T_j} c_{jt}y_{jt}
 
 \subsection{Ograniczenia}
 
-\Zadanie
+\begin{equation}
+  \forall_{s \in {S}} : \sum_{j \in J_s} x_{sj} = 1
+\end{equation}
 
+\begin{equation}
+  \forall_{j \in J} : \sum_{s \in S : j \in J_s } x_{sj} \leq \sum_{t \in T_j} q_{jt}y_{jt}
+\end{equation}
+
+\begin{equation}
+  \forall_{j \in J} : \sum_{t \in T_j} y_{jt} \leq 1
+\end{equation}
+
+\begin{equation*}
+  \forall_{s \in S} \forall_{j \in J_s} : x_{sj} \in {0,1}; \forall_{j \in J} \forall_{t \in T_j}: y_{jt} \in \mathbb_{Z}
+\end{equation*}
+
+\subsection{Zadanie}
+
+\subsubsection{Znaczenie zmiennych}
+
+\begin{itemize}
+  \item $y_{jt} - $ zmienna całkowita określająca liczbę wykorzystanych urządzeń typu $t$ w lokalizacji $j$ (z (4) wynika, że jest binarna).
+  \item $x_{sj} - $ zmienna całkowita określająca do której lokalizacji przypisany jest klient.
+\end{itemize}
+
+\subsubsection{Interpretacja równań}
+
+\begin{enumerate}
+  \item Funkcja celu (1) to minimalizacja całkowitego kosztu potrzebnych urządzeń. Tzn sprawdzamy z których urządzeń korzystamy ($y$) i sumujemy ich koszt ($c$).
+  \item Równanie (2) to ograniczenie, mówiące o tym, że każdy klient korzysta z dokładnie jednej lokalizacji.
+  \item Ograniczenie (3) zostało dodane w celu upewnienia się, że liczba przpisanych klientów nie przekracza możliwości obsługi urządzenia ($x \leq q$)
+  \item Ostatnie ograniczenie (4) mówi o tym, że w danej lokalizacji montowane jest co najwyżej jedno urządzenie nadawcze.
+\end{enumerate}
+
+\subsubsection{Metoda}
+
+\subsubsection{Wpływ relaksacji}
+W przypadku relaksacji równania (4) możemy instalować więcej niż jedno urządzenie w danej lokalizacji. Biorąc od uwagę, że funkcja celu
+opiera się wyłacznie na cenie, potencjalnie będziemy mogli użyć najtańszych urządzeń w całości systemu, czyli wartość celu będzie nie gorsza
+(może być mniejsza).
+
+\subsubsection{Dualizacja}
+
+
+\subsubsection{Liście w topologi}
+ Tak, jeżeli żaden z klientów nie będzie przypisany do danego węzła pośredniczącego, czyli:
+ \begin{equation}
+   \exists_{j \in J} \sum_{s \in S} x_{sj} = 0
+ \end{equation}
+ Stopień takiego węzła, zgodnie z defnicją to 1 : $\deg j = 1$
+
+\subsubsection{Korzeń topologi}
+
+Centrala będzie korzeniem takiej topologi.
+
+\subsubsection{Dane sprzeczne}
+
+Aby sfromuowany problem był sprzeczny (nie miał rozwiązań) najłatwiej jest złamać ograniczenie (3),
+to znaczy by liczba klientów przekraczała sumaryczne możliwości obsługi wszystkich urządzeń np.:
+
+\begin{equation}
+  |S| = 2
+\end{equation}
+
+oraz
+
+\begin{equation}
+  \sum_{j \in J} \sum_{t in T} q_{jt} = 1
+\end{equation}
+
+Z (6) wynika, że liczba klientów to 2, a z (7), że jesteśmy w stanie obsłużyć tylko jednego klienta. Q.E.D
 
 \end{document}
