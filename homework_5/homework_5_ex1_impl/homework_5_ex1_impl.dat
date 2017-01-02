@@ -4,11 +4,27 @@
  * Creation Date: Jan 2, 2017 at 12:11:19 PM
  *********************************************/
 
- Clients = {<1>};
- 
- Locations = {<1,{<1>}>};
- 
- Devices = #[
- 	<1,{<1>}> : <>
- 
- ];
+ClientNum = 7;
+LocationNum = 3;
+DeviceNum = 2;
+devicesAtLocations = [[1, 1],
+					  [1, 1],
+					  [1, 1]];
+locationIsAvailableToClient = [
+	[1, 1, 0],
+	[1, 1, 0],
+	[0, 1, 1],
+	[0, 1, 1],
+	[1, 0, 1],
+	[1, 0, 1],
+	[1, 1, 1]];
+	
+maxClientsForDeviceAtLocation = [
+	[5, 3],
+	[2, 10],
+	[8, 3]];
+	
+cost = [
+	[200, 120],
+	[300, 500],
+	[400, 150]];
