@@ -45,7 +45,7 @@ subject to {
  	
  	forall(location in Locations){
 		one_device_for_location:
- 	 	sum(device in Devices, location in Locations: devicesAtLocations[location][device] == 1)
+ 	 	sum(device in Devices: devicesAtLocations[location][device] == 1)
 	 	  isDeviceAtLocation[location][device] <= 1;
 	}
 }		
