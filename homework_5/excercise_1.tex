@@ -28,8 +28,8 @@ Z punktu widzenia topologii fizycznej sieć złożona z wierzchołków reprezen-
 tujących centralę, węzeł pośredniczący (węzły pośredniczące) oraz klien-
 tów jest drzewem. Problem polega na znalezieniu takiego umiejscowienia
 węzłów pośredniczących obsługujących wszystkich klientów, że pojedyn-
-czy  węzeł  pośredniczący  może  obsłużyć  wszystkich  przyłączonych  klientów,
-tj.
+czy  węzeł  pośredniczący  może  obsłużyć  wszystkich  przyłączonych  klientów.
+
 \subsection{Oznaczenia}
 Oznaczenia:
 
@@ -90,8 +90,8 @@ min \sum_{j \in J} \sum_{t \in T_j} c_{jt}y_{jt}
 
 \subsubsection{Wpływ relaksacji}
 W przypadku relaksacji równania (4) możemy instalować więcej niż jedno urządzenie w danej lokalizacji. Biorąc od uwagę, że funkcja celu
-opiera się wyłacznie na cenie, potencjalnie będziemy mogli użyć najtańszych urządzeń w całości systemu, czyli wartość celu będzie nie gorsza
-(może być mniejsza).
+opiera się wyłacznie na cenie, potencjalnie będziemy mogli użyć najtańszych urządzeń w całości systemu, czyli wartość funckji celu dla zrelaksowanego
+problemu będzie nie gorsza (może być lepsza tj. mniejsza) niż w przypadku wyjściowym.
 
 \subsubsection{Dualizacja}
 
@@ -122,6 +122,6 @@ oraz
   \sum_{j \in J} \sum_{t in T} q_{jt} = 1
 \end{equation}
 
-Z (6) wynika, że liczba klientów to 2, a z (7), że jesteśmy w stanie obsłużyć tylko jednego klienta. Q.E.D
+Z (6) wynika, że liczba klientów to 2, a z (7), że jesteśmy w stanie obsłużyć tylko jednego klienta. Q.E.D.
 
 \end{document}
