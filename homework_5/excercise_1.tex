@@ -65,7 +65,7 @@ min \sum_{j \in J} \sum_{t \in T_j} c_{jt}y_{jt}
 \end{equation}
 
 \begin{equation*}
-  \forall_{s \in S} \forall_{j \in J_s} : x_{sj} \in {0,1}; \forall_{j \in J} \forall_{t \in T_j}: y_{jt} \in \mathbb_{Z}
+  \forall_{s \in S} \forall_{j \in J_s} : x_{sj} \in {0,1}; \forall_{j \in J} \forall_{t \in T_j}: y_{jt} \in \mathbb_{Z_+}
 \end{equation*}
 
 \subsection{Zadanie}
@@ -107,15 +107,52 @@ problemu będzie nie gorsza (może być lepsza tj. mniejsza) niż w przypadku wy
 
 \subsubsection{Dualizacja}
 
+\begin{equation}
+  L(x, y, \lambda) = \sum_{j \in J} \sum_{t \in t_j} c_{jt}y_{jt} - \sum_{j \in J} \lambda_j (\sum_{s \in S, j \in J_s } x_{sj} - \sum_{t \in T_j} q_{jt}y_{jt})
+\end{equation}
 
-\subsubsection{Liście w topologi}
+\begin{equation}
+  \lambda_j \geq 0,
+\end{equation}
+
+
+\begin{equation}
+  W(\lambda) = \min_{x, y} L(x, y, \lambda) = \min_{x, y} \sum_{j \in J} \sum_{t \in T_j} (c_{jt}y_{jt} + \lambda_jq_{jt}y_{jt})
+\end{equation}
+
+
+\begin{equation}
+  - \sum_{j \in J} \sum_{s \in S, j \in J_s} \lambda_jx_{sj} = \min_x -\sum_{j \in J}\sum_{s \in S, j \in J_s} \lambda_sx_{sj}
+\end{equation}
+
+
+A biorąc pod uwagę ograniczenie (2):
+
+
+\begin{equation}
+  = - \sum_{s \in S} \max_{j \in J_s} \lambda_j
+\end{equation}
+
+Wobec tego dualna funkcja celu ma postać:
+
+\begin{equation}
+   \max W(\lambda) = \max - \sum_{s \in S} \max_{j \in J_s} \lambda_j
+\end{equation}
+
+Czyli po uwaględnieniu ograniczenia (6)
+
+\begin{equation}
+  \max W(\lambda) = 0
+\end{equation}
+
+\subsubsection{Liście w topologii}
  Tak, jeżeli żaden z klientów nie będzie przypisany do danego węzła pośredniczącego, czyli:
  \begin{equation}
    \exists_{j \in J} \sum_{s \in S} x_{sj} = 0
  \end{equation}
  Stopień takiego węzła, zgodnie z defnicją to 1 : $\deg j = 1$
 
-\subsubsection{Korzeń topologi}
+\subsubsection{Korzeń topologii}
 
 Centrala będzie korzeniem takiej topologi. Przy czym, zależy to od interpretacji, potencja za korzeń można by uznać dowolny wierzchołek grafu.
 
