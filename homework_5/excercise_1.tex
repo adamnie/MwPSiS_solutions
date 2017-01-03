@@ -74,7 +74,7 @@ min \sum_{j \in J} \sum_{t \in T_j} c_{jt}y_{jt}
 
 \begin{itemize}
   \item $y_{jt} - $ zmienna całkowita określająca liczbę wykorzystanych urządzeń typu $t$ w lokalizacji $j$ (z (4) wynika, że jest binarna).
-  \item $x_{sj} - $ zmienna całkowita określająca do której lokalizacji przypisany jest klient.
+  \item $x_{sj} - $ zmienna binarna określająca do której lokalizacji przypisany jest klient.
 \end{itemize}
 
 \subsubsection{Interpretacja równań}
@@ -87,6 +87,18 @@ min \sum_{j \in J} \sum_{t \in T_j} c_{jt}y_{jt}
 \end{enumerate}
 
 \subsubsection{Metoda}
+
+Jedną z metod która z których będzie korzystało dokładne rozwiązanie tego problemu jest branch-and-bound.
+Polega ona na podziale problemu na podproblemy (divide-and-conquer) w taki sposób, że dla nowego utworzonego podproblemu
+dodajemy nowe ograniczenie, dzieląc przestrzeń rozwiązań na dwie części (branch) . Np. zakładamy że w podproblemie "a" $x > 5$, a w podproblemie "b" $x \leq 5$.
+Następnie próbujemy rozwiązać tak postawione zadanie. Jeżeli okazuje się, że tak powstała gałąź rozwiązań oferuje zawsze lepszą wartość funkcji
+celu niż pozostałe rozwiązania, możemy wtedy zawęzić przestrzeń rozwiązań do nowopostałego problemu ograniczonego (bound).
+
+Problem z tego zadania można by rozbić na dwa pod problemy w ten sposób:
+zakładamy, że dla Lokalizacji pierwszej: $\sum_{t \in T_j} y_{jt} = 0$ czyli nie będzie w niej żadnego urządzenia.
+I jeżeli okaże się, że cena urządzeń w tej lokalizacji jest bardzo wysoka a także możliwe jest nieskorzystanie z tej stacji,
+wtedy można stwierdzić, że rozwiązanie należące do tej gałęzi będzie zawsze dawało lepszą wartość funckji celu. W konsekwencji możemy
+drugą (pozostałą gałąż, gdzie: $\sum_{t \in T_j} y_{jt} = 1$) odrzucić i już nie rozpatrywać. Co oczywiście upraszcza problem.
 
 \subsubsection{Wpływ relaksacji}
 W przypadku relaksacji równania (4) możemy instalować więcej niż jedno urządzenie w danej lokalizacji. Biorąc od uwagę, że funkcja celu
