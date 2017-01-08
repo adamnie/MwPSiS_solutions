@@ -44,8 +44,9 @@ tuple Flow {
  dvar float+ lambda[Tenants][Flows];
  
  maximize
+ 	//minimalziacja maksymalnego delay
   	sum(tenant in Tenants)
-  	  	min(flow in Flows) lambda[tenant][flow];
+  	  	(1.0/model.X[arc][tenant][flow]) + model.QueuingDelay
   	    
  
  subject to { 

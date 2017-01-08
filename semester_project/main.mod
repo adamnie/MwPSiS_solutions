@@ -4,22 +4,142 @@
  * Creation Date: Dec 10, 2016 at 1:49:14 PM
  *********************************************/
 
-main {
-/*
-	1) Wczytaj nasze dane
-	2) Uruchom model graph_partition_model
-		- Jakich danych potrzebuje?
-		- Co powinien zwr√≥ciƒá?
-	3) Uruchom model flow_allotion_model
-		- Jakich danych potrzebuje?
-		- Co powinien zwr√≥ciƒá?
-	4)  Uruchom model qos_provisioning_model
-		- Jakich danych potrzebuje?
-		- Co powinien zwr√≥ciƒá
-	5) Wy≈õwietl wynik
-	
+main {	
+	function calculateVariance(array){
+		var sum = 0;
+		for (var i = 0; i<array.length; i++){
+			sum = sum + array[i];		
+		}
+		var mean = sum/array.length;
+		
+		var sum_variance = 0;
+		for (var i = 0; i<array.length; i++){
+			sum_variance = sum_variance + (array[i] - mean)*(array[i] - mean);		
+		}
+		
+		writeln("Sum: ", sum);
+		writeln("Mean: ", mean);
+		writeln("Sum variance: ", sum_variance);
+		writeln("Sum variance/array.length: ", sum_variance/array.length);
+		writeln("================");
+				
+		return sum_variance/array.length;
+	}
 
-*/
+	function checkQoSRequirements(model){
+   		writeln("Checking QoS requirements");
+   		var sum_lambda = 0;
+   		for (var tenant in model.Tenants){
+   			for (var flow in model.Flows){
+   				sum_lambda = sum_lambda + model.lambda[tenant][flow];		
+   			}   		
+   		}
+   		
+   		if (sum_lambda == 0){
+   			writeln("Lamda = 0 !");
+   			return false;   		
+   		}
+   
+   		return  (checkDataRateRequirement(model) && 
+   				checkDelayRequirement(model) && 
+   				checkJitterRequirement(model) &&
+   				checkPacketLossRequirement(model))
+   	}
+   	
+   	function checkDataRateRequirement(model){
+   	   	for(var arc in model.Arcs){
+		  	for(var tenant in model.Tenants){
+		  		for(var flow in model.Flows){
+		  			if (model.X[arc][tenant][flow] > 0){
+		  				if (model.lambda[tenant][flow] > model.X[arc][tenant][flow]){		  				
+		  					writeln("Check data rate: False");
+		  					return false;		  				
+		  				}		  			
+		  			}	
+		  		}  	
+			}  	
+  		}
+  		
+  		writeln("Check data rate: True");	
+  		return true;
+   	}
+   	
+   	function checkDelayRequirement(model){
+   		for(var tenant in model.Tenants){
+		  	for(var flow in model.Flows){
+		  		var sum_delay = 0;
+		  		for (var arc in model.Arcs){
+		  			if (model.X[arc][tenant][flow] > 0){		  			
+		  				sum_delay = sum_delay + (1.0/model.X[arc][tenant][flow]) + model.QueuingDelay;	  			
+		  			}		  		
+		  		}		  	
+		  		
+		  		if (sum_delay > flow.max_delay){
+		  			writeln("Check delay: False");
+		  			writeln("Delay value: ", sum_delay);		  	
+		  			return false;		  		
+		  		}
+		 	}  		  
+		}
+   	   	
+   		writeln("Check delay: True");	
+   	   	return true;
+   	}
+   	
+   	function checkJitterRequirement(model){
+   	   	for(var tenant in model.Tenants){
+		  	for(var flow in model.Flows){
+		  		if(flow.tenant_id == tenant){
+		  			var array = new Array();	  
+			  		var i = 0;	
+			  		for (var arc in model.Arcs){
+			  			if (model.X[arc][tenant][flow] > 0){
+			  				array[i] = 1.0/model.X[arc][tenant][flow] + model.QueuingDelay;
+			  				writeln("Adding: ", array[i], " i=", i);
+			  				i = i+1;
+			  			}	  		  		
+			  		}
+			  		writeln("Array length:", array.length);
+			  		
+			  		var jitter = calculateVariance(array);
+			  		
+			  		if (jitter > flow.max_jitter) {
+	  					writeln("Check jitter: False");
+			  			writeln("Jitter value: ", jitter);		  	
+			  			return false;
+	  				}		  		
+		  		}		  			  			
+		  	}  
+  		}
+  		
+  		writeln("Check jitter: True");	
+		writeln("Jitter value: ", jitter);		
+   	   	return true;
+   	}
+   	
+   	function checkPacketLossRequirement(model){
+   		for(var tenant in model.Tenants){
+		  for(var flow in model.Flows){
+		  	var prod_packet_loss = 1;		  
+		  
+		    for (var arc in model.Arcs){
+		    	if (model.X[arc][tenant][flow] > 0){		    	
+		    		prod_packet_loss = prod_packet_loss * arc.packet_loss;		    	
+		    	}  		    
+		    }
+		    
+		    		    
+		    if (prod_packet_loss < flow.max_packet_loss){
+		   		writeln("Check packetloss: False");		
+		   		writeln("packet loss value: ", prod_packet_loss);
+		   		writeln("flow packet loss: ", flow.max_packet_loss);	    
+		    	return false;		    
+		    }
+		}   
+		writeln("Check packetloss: True");		
+   	   	return true;
+   	}
+  }   	
 
 	var data_source = new IloOplDataSource("graph_partition_data.dat");
 	var current_first_stage_solution = 0;
@@ -42,8 +162,52 @@ main {
 			return false;		
 		}
 	}
-    
+	
+	function thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object){
+		writeln("Lambda: ");
+		writeln(flow_alloc_model.lambda);
+		writeln();
+	
+		writeln("X: ");
+		writeln(flow_alloc_model.X);
+		writeln("----------");	
+	
+		if (checkQoSRequirements(flow_alloc_model)){
+			var tab = "  "; 
+ 
+			for(var tenant in flow_alloc_model.Tenants){
+				writeln("Tenant: ", tenant.id);
+				for(var flow in flow_alloc_model.Flows){
+					if(flow.tenant_id == tenant){
+						writeln(tab, "Flow: ", flow.id);			
+						writeln(tab, tab, "Lambda: ", flow_alloc_model.lambda[tenant][flow]);
+						write(tab, tab, "Arcs: ");
+						for(var arc in flow_alloc_model.Arcs){
+							if(flow_alloc_model.X[arc][tenant][flow] > 0 ){
+								write(arc.name, " ");		
+		   					}					
+						}
+						writeln();
+					}
+				}	
+			}
+			return true;
+		} else {
+			if (flow_alloc_stage_solution < flow_alloc_cplex_object.getSolnPoolNsolns()){
+				writeln('Nie mozna rozwiazac dla przeplywow ', flow_alloc_stage_solution)
+				flow_alloc_stage_solution = flow_alloc_stage_solution + 1;
+				writeln('Rozwiazanie przeplywu nr: ', flow_alloc_stage_solution);		
+				flow_alloc_model.setPoolSolution(flow_alloc_stage_solution);
+				thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object);
+			} else {
+				writeln("Brak rozwiπzaÒ dla przep≥ywÛw: ", flow_alloc_stage_solution);	
+			}
+		 	return false;
+		}
+	
 
+	}
+    
 	function secondStage(){
 		// TODO: get data from first stage	
 		var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
@@ -54,20 +218,22 @@ main {
 		flow_alloc_model.addDataSource(data_source);
 		flow_alloc_model.generate();
 		
-		if (flow_alloc_cplex_object.solve()){
-			return flow_alloc_model.lambda;
+		var flow_alloc_stage_solution = 0;
+		
+		if (flow_alloc_cplex_object.solve() && thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object)){
+			writeln("Jest rozwiπzanie!");
 		} else {
 			if (current_first_stage_solution < cplex_object.getSolnPoolNsolns()){
-				writeln('Nie mozna rozwiazac dla rozwiazania ', current_first_stage_solution)
+				writeln('Nie mozna rozwiazac dla topologi ', current_first_stage_solution)
 				current_first_stage_solution = current_first_stage_solution + 1;
 				writeln('Rozwiazanie nr', current_first_stage_solution);		
 				for (var arc in model.x){
 					writeln("krawedz ", arc, model.x[arc]);		
 				}	
 				model.setPoolSolution(current_first_stage_solution);
-				secondStage();		
+				secondStage();
 			} else {
-				writeln('Nie mozna rozwiazac dla zadnego z rozwiazan');			
+				writeln('Nie mozna rozwiazac dla zadnej topologii');			
 				return false;		
 			}
 		}
@@ -75,11 +241,4 @@ main {
 	
    	var first_model = firstStage();
    	var second_model = secondStage();
-   	writeln(second_model);
-   	
-   	
-	
-	
-	
-
 }
