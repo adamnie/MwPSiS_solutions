@@ -29,7 +29,7 @@
   	float max_packet_loss;
  };
  
- int T = ...;
+ //int T = ...;
  int N = ...;
  range n = 1..N;
   
@@ -68,10 +68,10 @@ subject to {
 		(sum(arc in Arcs) arc.cost * x[arc][tenant]) <= weights[tenant];
  	}	  
  	
- 	forall(tenant in Tenants){
+/* 	forall(tenant in Tenants){
  	 	sum (arc in Arcs) (x[arc][tenant]) >= N-1; 
  	}
- 	
+*/ 	
  	set_cut_contraint:
  	forall(tenant in Tenants){
 	 	forall(s in S : 0 < card(Subsets[s]) < N){
