@@ -84,3 +84,16 @@ subject to {
  	} 	
  	
 }
+
+execute {
+
+	for (var tenant in Tenants){
+		writeln("Tenant ", tenant.id)	
+		for (var arc in Arcs){
+			if (x[arc][tenant] == 1){
+				writeln(arc)
+			}
+		}	
+	}
+
+}
