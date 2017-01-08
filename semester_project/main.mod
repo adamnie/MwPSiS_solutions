@@ -21,7 +21,7 @@ main {
 
 */
 
-	var data_source = new IloOplDataSource("data2.dat");
+	var data_source = new IloOplDataSource("graph_partition_data.dat");
 	var current_first_stage_solution = 0;
 	var source = new IloOplModelSource("graph_partition_model.mod");
 	var model_definition = new IloOplModelDefinition(source);
@@ -50,6 +50,7 @@ main {
 		var flow_alloc_model_definition = new IloOplModelDefinition(flow_alloc_source);
 		var flow_alloc_cplex_object = new IloCplex();
 		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);
+		var data_source = new IloOplDataSource("flow_allocation_data.dat");
 		flow_alloc_model.addDataSource(data_source);
 		flow_alloc_model.generate();
 		

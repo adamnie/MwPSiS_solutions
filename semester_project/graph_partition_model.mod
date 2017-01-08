@@ -52,6 +52,7 @@
  
  
  dvar boolean x[Arcs][Tenants];
+ dvar float+  X[Tenants][Flows][Arcs];
  
   minimize 
 	sum(tenant_a in Tenants)
