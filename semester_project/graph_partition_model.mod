@@ -8,11 +8,13 @@
  	int id; 
  };
 
- tuple Arc{
-  	string name;
-  	Node input_node;
-  	Node output_node;
-  	int cost;
+ tuple Arc {
+ 	string name;
+ 	Node input_node;
+ 	Node output_node;
+ 	int cost;
+ 	int capacity;	
+ 	float packet_loss; 
  };
  
  tuple Tenant {
@@ -82,8 +84,9 @@ subject to {
 				
 	 	}
  	} 	
- 	
 }
+
+int result[arc in Arcs][tenant in Tenants] = x[arc][tenant];
 
 execute {
 
@@ -96,9 +99,14 @@ execute {
 //		}	
 //	}
 
-	for (var arc in arcs){
+	for (var arc in Arcs){
 		writeln("for arc " + arc);
 		writeln(x[arc]);
+	}
+	
+	for (var arc in Arcs){
+		writeln("for arc " + arc);
+		writeln(result[arc]);
 	}
 
 }

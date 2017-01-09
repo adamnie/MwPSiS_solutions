@@ -4,7 +4,7 @@
 		<config category="opl" default="false" name="GraphPartition">
 			<ref name="graph_partition_model.mod" type="model">
 			</ref>
-			<ref name="graph_partition_data.dat" type="data">
+			<ref name="graph_partition_data2.dat" type="data">
 			</ref>
 		</config>
 		<config category="opl" default="true" name="main">

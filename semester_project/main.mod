@@ -141,7 +141,7 @@ main {
    	}
   }   	
 
-	var data_source = new IloOplDataSource("graph_partition_data.dat");
+	var data_source = new IloOplDataSource("graph_partition_data2.dat");
 	var current_first_stage_solution = 0;
 	var source = new IloOplModelSource("graph_partition_model.mod");
 	var model_definition = new IloOplModelDefinition(source);
@@ -204,20 +204,34 @@ main {
 			}
 		 	return false;
 		}
-	
-
 	}
     
 	function secondStage(){
-		// TODO: get data from first stage	
 		var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
 		var flow_alloc_model_definition = new IloOplModelDefinition(flow_alloc_source);
 		var flow_alloc_cplex_object = new IloCplex();
 		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);
 		var data_source = new IloOplDataSource("flow_allocation_data.dat");
+		
 		flow_alloc_model.addDataSource(data_source);
 		flow_alloc_model.generate();
 		
+		var dataElements = new IloOplDataElements();
+		dataElements.Nodes = flow_alloc_model.Nodes;
+		dataElements.Arcs = flow_alloc_model.Arcs;
+		dataElements.Flows = flow_alloc_model.Flows;
+		dataElements.Tenants = flow_alloc_model.Tenants;
+		dataElements.QueuingDelay = flow_alloc_model.QueuingDelay;
+		dataElements.x = model.result;
+		
+		writeln("x: ");
+		writeln(dataElements.x);
+		
+		var flow_alloc_cplex_object = new IloCplex();
+		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);
+		flow_alloc_model.addDataSource(dataElements);
+		flow_alloc_model.generate();
+				
 		var flow_alloc_stage_solution = 0;
 		
 		if (flow_alloc_cplex_object.solve() && thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object)){
