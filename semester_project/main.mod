@@ -25,6 +25,73 @@ main {
 				
 		return sum_variance/array.length;
 	}
+	
+	function sort_solutions(max_iter){
+
+		var array = new Array();
+		var array_sorted = new Array();
+		var array_indexes = new Array();
+		var array_indexes_sorted = new Array();
+		
+		for (var i = 0; i <= max_iter; i++){
+			model.setPoolSolution(i);
+			//writeln("wartosc funkcji celu: ", cplex_object.getObjValue());		
+			//writeln("wartosc funkcji celu iterator: ", i);
+			array[i] = cplex_object.getObjValue();
+			array_indexes[i] = i;
+			array_sorted[i] = cplex_object.getObjValue();
+			array_indexes_sorted[i] = i;
+			//writeln("Adding: ", array[i], " i=", i);
+			//writeln("Adding: ", array_indexes[i], " i=", i);	
+		}
+				
+		array_sorted.sort(compare);
+		for (var i=0; i<array.length; i++){
+			var index = find(array, array_sorted[i]);
+			//writeln("index, ", index);
+			//writeln("array_sorted[i], ", array_sorted[i]);
+			array_indexes_sorted[i] = index;
+				
+		}
+		/*
+		for (var i =0; i < array.length; i++){
+			writeln("aaaa ", array_indexes[i]);
+			writeln("cccc ", array_indexes_sorted[i]);
+			writeln("bbbb ", array[i]);
+		}*/
+		
+/*		
+		for (var i = 0; i <= array.length; i++){
+			//writeln("wartosc funkcji celu iterator: ", i);
+			writeln("element: ", array[i])
+			
+		}*/	
+		return array_indexes_sorted;
+		
+	}
+	
+/*	function sort_function(x, y, array) {
+		if (array[x] < array[y]) return -1;
+		else if (array[x] == array[y]) return 0;
+		else return 1;	
+	}
+*/	function compare(x, y) {
+		
+		if (x < y) return -1; 
+		else if (x == y) 
+			return 0; 
+		else 
+			return 1; 
+	}
+
+	function find(array, value, skip){
+		for(var i=0; i<array.length; i++){
+			if (array[i] == value){
+				array[i] = -1;
+				return i;			
+			}		
+		}	
+	}	
 
 	function checkQoSRequirements(model){
    		writeln("Checking QoS requirements");
@@ -209,14 +276,16 @@ main {
 		}
 	}
    
-	function secondStage(iteration, max_iter){
-		model.setPoolSolution(iteration);
+	function secondStage(iteration, max_iter, sorted_first_model_solutions){	
+	
+		model.setPoolSolution(sorted_first_model_solutions[iteration]);
 		
 		writeln('Rozwiazanie optymalne');		
 		for (var arc in model.x){
 			writeln("krawedz ", arc, model.x[arc]);		
 		}
 		writeln("Wartosc f. celu: ", cplex_object.getObjValue());
+		writeln("max iterator: ", max_iter);
 		
 		var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
 		var flow_alloc_cplex_object  = new IloCplex();
@@ -249,11 +318,17 @@ main {
 			writeln("Jest rozwiazanie wszystkiego!");
 			return true;
 		} else {
-			secondStage(iteration+1, max_iter);
+			secondStage(iteration+1, max_iter, sorted_first_model_solutions);
 		}
 	}
 	
    	var first_model = firstStage();
+   	
+	var sorted_first_model_solutions = sort_solutions(cplex_object.solnPoolNsolns-1);
+	for (var i = 0; i< sorted_first_model_solutions.length; i++){
+		writeln("tablica indexow", sorted_first_model_solutions[i]);
 		
-   	var second_model = secondStage(0, cplex_object.solnPoolNsolns-1);
+	}
+		
+   	var second_model = secondStage(0, cplex_object.solnPoolNsolns-1, sorted_first_model_solutions);
 }
