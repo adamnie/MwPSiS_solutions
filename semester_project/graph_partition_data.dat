@@ -36,34 +36,33 @@ Nodes = {
 	<16>, //marsille
 	<17> //madrid
 	
-};
-  
+}; 
  
 Arcs = {
- 	<"london-gravelines", <1>, <2>, 480>,
- 	<"london-amsterdam", <1>, <4>, 40>,
- 	<"amsterdam-warsaw", <4>, <5>, 80>,
- 	<"warsaw-prague", <5>, <8>, 80>,
- 	<"prague-wien", <8>, <11>, 80>,
- 	<"wien-milano", <11>, <15>, 10>,
- 	<"milano-marsille", <15>, <16>, 10>,
- 	<"marsille-madrid", <16>, <17>, 40>,
- 	<"madrid-bordoux", <17>, <13>, 40>,
- 	<"bordoux-paris", <13>, <9>, 120>,
- 	<"marsille-lyon", <16>, <14>, 80>,
- 	<"lyon-paris", <14>, <9>, 80>,
- 	<"paris-roubaix", <6>, <9>, 200>,
- 	<"paris-roubaix", <6>, <9>, 200>,
- 	<"zurich-milano", <12>, <15>, 50>,
- 	<"paris-strasburg", <9>, <10>, 60>,
- 	<"strasburg-frankfurt", <10>, <7>, 60>,
- 	<"frankfurt-prague", <7>, <8>, 90>,
- 	<"bruxellis-amsterdam", <3>, <4>, 280>,
- 	<"bruxellis-frankfurt", <3>, <7>, 280>,
- 	<"bruxellis-roubaix", <3>, <6>, 600>,
- 	<"gravelines-roubaix", <2>, <6>, 380>,
- 	<"bordoux-marsille", <13>, <16>, 80>,
- 	<"frankfurt-zurich", <7>, <12>, 50>
+ 	<"london-gravelines", <1>, <2>, 52, 480, 0.999>,
+ 	<"london-amsterdam", <1>, <4>, 600, 40, 0.999>,
+ 	<"amsterdam-warsaw", <4>, <5>, 200, 80, 0.999>,
+ 	<"warsaw-prague", <5>, <8>, 200, 80, 0.999>,
+ 	<"prague-wien", <8>, <11>, 200, 80, 0.999>,
+ 	<"wien-milano", <11>, <15>, 900, 10, 0.999>,
+ 	<"milano-marsille", <15>, <16>, 900, 10, 0.999>,
+ 	<"marsille-madrid", <16>, <17>, 600, 40, 0.999>,
+ 	<"madrid-bordoux", <17>, <13>, 600, 40, 0.999>,
+ 	<"bordoux-paris", <13>, <9>, 88, 120, 0.999>,
+ 	<"marsille-lyon", <16>, <14>, 200, 80, 0.999>,
+ 	<"lyon-paris", <14>, <9>, 200, 80, 0.999>,
+ 	<"paris-roubaix", <6>, <9>, 80, 200, 0.999>,
+ 	<"paris-roubaix", <6>, <9>, 80, 200, 0.999>,
+ 	<"zurich-milano", <12>, <15>, 500, 50, 0.999>,
+ 	<"paris-strasburg", <9>, <10>, 400, 60, 0.999>,
+ 	<"strasburg-frankfurt", <10>, <7>, 400, 60, 0.999>,
+ 	<"frankfurt-prague", <7>, <8>, 100, 90, 0.999>,
+ 	<"bruxellis-amsterdam", <3>, <4>, 72, 280, 0.999>,
+ 	<"bruxellis-frankfurt", <3>, <7>, 72, 280, 0.999>,
+ 	<"bruxellis-roubaix", <3>, <6>, 40, 600, 0.999>,
+ 	<"gravelines-roubaix", <2>, <6>, 62, 380, 0.999>,
+ 	<"bordoux-marsille", <13>, <16>, 200, 80, 0.999>,
+ 	<"frankfurt-zurich", <7>, <12>, 500, 50, 0.999>
 };
  
 
@@ -83,9 +82,9 @@ Tenants = {
 };
  
 weights = #[
- 	<1>: 100,
- 	<2>: 100,
- 	<3>: 100,
- 	<4>: 100
+ 	<1>: 5000,
+ 	<2>: 4000,
+ 	<3>: 3500,
+ 	<4>: 4250
 ]#;
 

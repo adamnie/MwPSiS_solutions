@@ -65,11 +65,11 @@
  
 subject to {	
 	
-/*	weights_contraint:
+	weights_contraint:
 	forall(tenant in Tenants){
 		(sum(arc in Arcs) arc.cost * x[arc][tenant]) <= weights[tenant];
  	}	  
- */	
+ 
  	forall(tenant in Tenants){
  	 	sum (arc in Arcs) (x[arc][tenant]) >= N-1; 
  	}
