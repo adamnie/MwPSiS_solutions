@@ -40,8 +40,7 @@ main {
    			return false;   		
    		}
    
-   		return  (checkDataRateRequirement(model) && 
-   				checkDelayRequirement(model) && 
+   		return  (checkDelayRequirement(model) && 
    				checkJitterRequirement(model) &&
    				checkPacketLossRequirement(model))
    	}
@@ -69,7 +68,7 @@ main {
 		  	for(var flow in model.Flows){
 		  		var sum_delay = 0;
 		  		for (var arc in model.Arcs){
-		  			if (model.X[arc][tenant][flow] > 0){		  			
+		  			if (model.X[arc][tenant][flow] > 0.001){		  			
 		  				sum_delay = sum_delay + (1.0/model.X[arc][tenant][flow]) + model.QueuingDelay;	  			
 		  			}		  		
 		  		}		  	
@@ -93,7 +92,7 @@ main {
 		  			var array = new Array();	  
 			  		var i = 0;	
 			  		for (var arc in model.Arcs){
-			  			if (model.X[arc][tenant][flow] > 0){
+			  			if (model.X[arc][tenant][flow] > 0.001){
 			  				array[i] = 1.0/model.X[arc][tenant][flow] + model.QueuingDelay;
 			  				writeln("Adding: ", array[i], " i=", i);
 			  				i = i+1;
@@ -118,27 +117,32 @@ main {
    	}
    	
    	function checkPacketLossRequirement(model){
-   		for(var tenant in model.Tenants){
-		  for(var flow in model.Flows){
-		  	var prod_packet_loss = 1;		  
+   	   	
+   	
+   		for (var tenant in model.Tenants) {
+		  for (var flow in model.Flows) { 
+		  	var prod_packet_loss = 1;	  
 		  
-		    for (var arc in model.Arcs){
-		    	if (model.X[arc][tenant][flow] > 0){		    	
-		    		prod_packet_loss = prod_packet_loss * arc.packet_loss;		    	
-		    	}  		    
+		    for (var arc in model.Arcs){	    
+		    
+		    	if (model.X[arc][tenant][flow] > 0.001){	   	
+		    		prod_packet_loss = prod_packet_loss * arc.packet_loss;	
+		    	}  
+		    			    
 		    }
 		    
 		    		    
-		    if (prod_packet_loss < flow.max_packet_loss){
+		    if (Opl.sqrt(prod_packet_loss) < flow.max_packet_loss) {
 		   		writeln("Check packetloss: False");		
-		   		writeln("packet loss value: ", prod_packet_loss);
+		   		writeln("packet loss value: ", Opl.sqrt(prod_packet_loss), " for tenant ", tenant.id);	    	
 		   		writeln("flow packet loss: ", flow.max_packet_loss);	    
 		    	return false;		    
 		    }
-		}   
+		  }   
+		}	
+			
 		writeln("Check packetloss: True");		
    	   	return true;
-   	}
   }   	
 
 	var data_source = new IloOplDataSource("graph_partition_data2.dat");
@@ -200,7 +204,7 @@ main {
 				flow_alloc_model.setPoolSolution(flow_alloc_stage_solution);
 				thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object);
 			} else {
-				writeln("Brak rozwi¹zañ dla przep³ywów: ", flow_alloc_stage_solution);	
+				writeln("Brak rozwiï¿½zaï¿½ dla przepï¿½ywï¿½w: ", flow_alloc_stage_solution);	
 			}
 		 	return false;
 		}
@@ -235,7 +239,7 @@ main {
 		var flow_alloc_stage_solution = 0;
 		
 		if (flow_alloc_cplex_object.solve() && thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object)){
-			writeln("Jest rozwi¹zanie!");
+			writeln("Jest rozwiï¿½zanie!");
 		} else {
 			if (current_first_stage_solution < cplex_object.getSolnPoolNsolns()){
 				writeln('Nie mozna rozwiazac dla topologi ', current_first_stage_solution)

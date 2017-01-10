@@ -40,7 +40,7 @@ tuple Flow {
  
  int x[Arcs][Tenants] = ...;
 
- dvar float+  X[Arcs][Tenants][Flows];
+ dvar float+ X[Arcs][Tenants][Flows];
  dvar float+ lambda[Tenants][Flows];
  
  maximize
@@ -83,6 +83,15 @@ tuple Flow {
    			}  		
 	  	}  
 	  }
+  }
+  
+  data_rate_constraint:
+  forall(tenant in Tenants){
+  	forall(flow in Flows){
+  		forall(arc in Arcs){
+			(X[arc][tenant][flow] == 0) || (lambda[tenant][flow] <= X[arc][tenant][flow]); 	 			
+  		}  	
+	}  	
   }
     
  }
