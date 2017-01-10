@@ -78,9 +78,16 @@ subject to {
  	forall(tenant in Tenants){
 	 	forall(s in S : 0 < card(Subsets[s]) < N){
 			sum(node_in in Subsets[s], node_out in Neighbours[node_in] inter Compl[s])
-			  x[first({link | link in Arcs : link.input_node == node_in && link.output_node==node_out})][tenant] +
-			sum(node_in in Compl[s], node_out in Neighbours[node_in] inter Subsets[s])
-			  x[first({link | link in Arcs: link.input_node == node_in && link.output_node==node_out})][tenant] >= 1; 		  
+			  x[first({link | link in Arcs : link.input_node == node_in && link.output_node==node_out})][tenant] >= 1; 		  
+				
+	 	}
+ 	} 
+ 	
+ 	same_tenant_constraint:
+ 	forall(tenant in Tenants){
+	 	forall(s in S : 0 < card(Subsets[s]) < N){
+			forall(node_in in Subsets[s], node_out in Neighbours[node_in] inter Compl[s])
+			  x[first({link | link in Arcs : link.input_node == node_in && link.output_node==node_out})][tenant] == x[first({link | link in Arcs : link.input_node == node_out && link.output_node==node_in})][tenant]; 		  
 				
 	 	}
  	} 	
@@ -103,10 +110,10 @@ execute {
 		writeln("for arc " + arc);
 		writeln(x[arc]);
 	}
-	
-	for (var arc in Arcs){
-		writeln("for arc " + arc);
-		writeln(result[arc]);
-	}
+//	
+//	for (var arc in Arcs){
+//		writeln("for arc " + arc);
+//		writeln(result[arc]);
+//	}
 
 }
