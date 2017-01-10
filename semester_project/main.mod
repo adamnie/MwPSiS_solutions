@@ -5,6 +5,13 @@
  *********************************************/
 
 main {	
+
+//	var gpData = "graph_partition_data2.dat";
+//	var faData = "flow_allocation_data.dat";
+	
+	var gpData = "graph_partition_data_big.dat";
+	var faData = "flow_allocation_data_big.dat";
+
 	function calculateVariance(array){
 		var sum = 0;
 		for (var i = 0; i<array.length; i++){
@@ -144,7 +151,7 @@ main {
    	   	return true;
   }   	
 
-	var data_source = new IloOplDataSource("graph_partition_data2.dat");
+	var data_source = new IloOplDataSource(gpData);
 	var current_first_stage_solution = 0;
 	var source = new IloOplModelSource("graph_partition_model.mod");
 	var model_definition = new IloOplModelDefinition(source);
@@ -216,12 +223,12 @@ main {
 		for (var arc in model.x){
 			writeln("krawedz ", arc, model.x[arc]);		
 		}
-		writeln("Wartosc f. celu: ", cplex_object.getObjValue());
+//		writeln("Wartosc f. celu: ", cplex_object.getObjValue());
 		
 		var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
 		var flow_alloc_cplex_object  = new IloCplex();
 		var flow_alloc_model_definition = new IloOplModelDefinition(flow_alloc_source);
-		var data_source = new IloOplDataSource("flow_allocation_data.dat");
+		var data_source = new IloOplDataSource(faData);
 		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);	
 		
 		flow_alloc_model.addDataSource(data_source);

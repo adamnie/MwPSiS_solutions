@@ -29,6 +29,7 @@ tuple Flow {
   	float max_delay;
   	float max_jitter;
   	float max_packet_loss;
+  	float minimal_value;
  };
  
  {Flow} Flows = ...;
@@ -40,13 +41,14 @@ tuple Flow {
  
  int x[Arcs][Tenants] = ...;
 
- dvar float+  X[Arcs][Tenants][Flows];
+ dvar float+ X[Arcs][Tenants][Flows];
  dvar float+ lambda[Tenants][Flows];
  
+ dexpr int y[a in Arcs][t in Tenants][f in Flows] = X[a][t][f] == 0;
+ 
  maximize
- 	//minimalziacja maksymalnego delay
   	sum(tenant in Tenants)
-  	  	(1.0/model.X[arc][tenant][flow]) + model.QueuingDelay
+  	  	min(flow in Flows) lambda[tenant][flow];
   	    
  
  subject to { 
@@ -61,6 +63,14 @@ tuple Flow {
   		}
   	}  
   }
+  
+  minimal_flow_contraint:
+  	forall(tenant in Tenants){
+  	forall(flow in Flows){
+  		lambda[tenant][flow] >= flow.minimal_value;  	
+  	}  
+  }
+  
 
   capacity_constraint:
   forall(arc in Arcs){
@@ -85,6 +95,24 @@ tuple Flow {
 	  	}  
 	  }
   }
+  
+  data_rate_constraint:
+  forall(tenant in Tenants){
+  	forall(flow in Flows){
+  		forall(arc in Arcs){
+			(X[arc][tenant][flow]) == 0 || (lambda[tenant][flow] <= X[arc][tenant][flow] && X[arc][tenant][flow] >= 0.001); 	 			
+  		}  	
+	}  	
+  }
+  
+  packet_loss_constraint:
+	forall(tenant in Tenants){
+		forall(flow in Flows){
+			forall(arc in Arcs){
+				(X[arc][tenant][flow] >= 0.001 && prod(arc in Arcs) arc.packet_loss >= flow.max_packet_loss) || (X[arc][tenant][flow] == 0);					
+			}			
+		}
+	}
     
  }
  

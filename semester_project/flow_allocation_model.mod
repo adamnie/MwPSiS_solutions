@@ -43,6 +43,8 @@ tuple Flow {
  dvar float+ X[Arcs][Tenants][Flows];
  dvar float+ lambda[Tenants][Flows];
  
+ dexpr int y[a in Arcs][t in Tenants][f in Flows] = (1-(X[a][t][f] == 0));
+ 
  maximize
   	sum(tenant in Tenants)
   	  	min(flow in Flows) lambda[tenant][flow];
@@ -90,7 +92,7 @@ tuple Flow {
   forall(tenant in Tenants){
   	forall(flow in Flows){
   		forall(arc in Arcs){
-			(X[arc][tenant][flow] == 0) || (lambda[tenant][flow] <= X[arc][tenant][flow]); 	 			
+			(X[arc][tenant][flow]) == 0 || (lambda[tenant][flow] <= X[arc][tenant][flow] && X[arc][tenant][flow] >= 0.001); 	 			
   		}  	
 	}  	
   }
@@ -98,9 +100,7 @@ tuple Flow {
   packet_loss_constraint:
 	forall(tenant in Tenants){
 		forall(flow in Flows){
-			forall(arc in Arcs){
-				(X[arc][tenant][flow] == 0) || (prod(arc in Arcs) arc.packet_loss >= flow.max_packet_loss);					
-			}			
+			prod(arc in Arcs) ( y[arc][tenant][flow]*arc.packet_loss + (1-y[arc][tenant][flow])) >= flow.max_packet_loss;					
 		}
 	}
     

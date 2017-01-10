@@ -19,6 +19,18 @@
 			<ref name="flow_allocation_data.dat" type="data">
 			</ref>
 		</config>
+		<config category="opl" default="false" name="GraphPartitionBig">
+			<ref name="graph_partition_model.mod" type="model">
+			</ref>
+			<ref name="graph_partition_data_big.dat" type="data">
+			</ref>
+		</config>
+		<config category="opl" default="false" name="extension_minimal_flow">
+			<ref name="flow_allocation_data_minimal.dat" type="data">
+			</ref>
+			<ref name="flow_allocation_with_minimal_value.mod" type="model">
+			</ref>
+		</config>
 	</configs>
 	
 </project>
