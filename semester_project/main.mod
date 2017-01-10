@@ -41,8 +41,7 @@ main {
    		}
    
    		return  (checkDelayRequirement(model) && 
-   				checkJitterRequirement(model) &&
-   				checkPacketLossRequirement(model))
+   				checkJitterRequirement(model))
    	}
    	
    	function checkDataRateRequirement(model){
@@ -156,11 +155,11 @@ main {
 		model.addDataSource(data_source);
 		model.generate();
 		
-		if (cplex_object.solve()){	
-			writeln('Rozwiazanie optymalne');		
-			for (var arc in model.x){
-				writeln("krawedz ", arc, model.x[arc]);		
-			}
+		if (cplex_object.solve()){				
+		   	cplex_object.populate();
+		   	
+		   	writeln(">>>>>>>Iterations found: ", cplex_object.solnPoolNsolns);	
+			
 			return model.x;
 		} else {
 			return false;		
@@ -197,7 +196,7 @@ main {
 			}
 			return true;
 		} else {
-			if (flow_alloc_stage_solution < flow_alloc_cplex_object.getSolnPoolNsolns()){
+			if (flow_alloc_stage_solution < flow_alloc_cplex_object.solnPoolNsolns){
 				writeln('Nie mozna rozwiazac dla przeplywow ', flow_alloc_stage_solution)
 				flow_alloc_stage_solution = flow_alloc_stage_solution + 1;
 				writeln('Rozwiazanie przeplywu nr: ', flow_alloc_stage_solution);		
@@ -209,13 +208,21 @@ main {
 		 	return false;
 		}
 	}
-    
-	function secondStage(){
+   
+	function secondStage(iteration, max_iter){
+		model.setPoolSolution(iteration);
+		
+		writeln('Rozwiazanie optymalne');		
+		for (var arc in model.x){
+			writeln("krawedz ", arc, model.x[arc]);		
+		}
+		writeln("Wartosc f. celu: ", cplex_object.getObjValue());
+		
 		var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
+		var flow_alloc_cplex_object  = new IloCplex();
 		var flow_alloc_model_definition = new IloOplModelDefinition(flow_alloc_source);
-		var flow_alloc_cplex_object = new IloCplex();
-		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);
 		var data_source = new IloOplDataSource("flow_allocation_data.dat");
+		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);	
 		
 		flow_alloc_model.addDataSource(data_source);
 		flow_alloc_model.generate();
@@ -225,38 +232,28 @@ main {
 		dataElements.Arcs = flow_alloc_model.Arcs;
 		dataElements.Flows = flow_alloc_model.Flows;
 		dataElements.Tenants = flow_alloc_model.Tenants;
-		dataElements.QueuingDelay = flow_alloc_model.QueuingDelay;
+		dataElements.QueuingDelay = flow_alloc_model.QueuingDelay; 
 		dataElements.x = model.result;
 		
-		writeln("x: ");
-		writeln(dataElements.x);
-		
-		var flow_alloc_cplex_object = new IloCplex();
-		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);
 		flow_alloc_model.addDataSource(dataElements);
 		flow_alloc_model.generate();
 				
 		var flow_alloc_stage_solution = 0;
 		
+		if(iteration >= max_iter){
+			writeln('Nie mozna rozwiazac dla zadnej topologii');			
+			return false;	
+		}	
+			
 		if (flow_alloc_cplex_object.solve() && thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object)){
-			writeln("Jest rozwi�zanie!");
+			writeln("Jest rozwiazanie wszystkiego!");
+			return true;
 		} else {
-			if (current_first_stage_solution < cplex_object.getSolnPoolNsolns()){
-				writeln('Nie mozna rozwiazac dla topologi ', current_first_stage_solution)
-				current_first_stage_solution = current_first_stage_solution + 1;
-				writeln('Rozwiazanie nr', current_first_stage_solution);		
-				for (var arc in model.x){
-					writeln("krawedz ", arc, model.x[arc]);		
-				}	
-				model.setPoolSolution(current_first_stage_solution);
-				secondStage();
-			} else {
-				writeln('Nie mozna rozwiazac dla zadnej topologii');			
-				return false;		
-			}
+			secondStage(iteration+1, max_iter);
 		}
 	}
 	
    	var first_model = firstStage();
-   	var second_model = secondStage();
+		
+   	var second_model = secondStage(0, cplex_object.solnPoolNsolns-1);
 }

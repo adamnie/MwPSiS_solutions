@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<settings version="2"/>
+<settings version="2">
+  <category name="cplex">
+    <setting name="solnpoolintensity" value="2"/>
+    <setting name="solnpoolcapacity" value="10"/>
+    <setting name="solnpoolagap" value="0.0"/>
+    <setting name="solnpoolgap" value="0.0"/>
+    <setting name="solutiontarget" value="3"/>
+  </category>
+</settings>

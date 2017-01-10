@@ -60,6 +60,7 @@ tuple Flow {
   		}
   	}  
   }
+  
 
   capacity_constraint:
   forall(arc in Arcs){
@@ -93,6 +94,15 @@ tuple Flow {
   		}  	
 	}  	
   }
+  
+  packet_loss_constraint:
+	forall(tenant in Tenants){
+		forall(flow in Flows){
+			forall(arc in Arcs){
+				(X[arc][tenant][flow] == 0) || (prod(arc in Arcs) arc.packet_loss >= flow.max_packet_loss);					
+			}			
+		}
+	}
     
  }
  
