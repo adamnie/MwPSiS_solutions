@@ -29,6 +29,7 @@ tuple Flow {
   	float max_delay;
   	float max_jitter;
   	float max_packet_loss;
+  	float minimal_value;
  };
  
  {Flow} Flows = ...;
@@ -61,6 +62,13 @@ tuple Flow {
   			}  		
   		}
   	}  
+  }
+  
+   minimal_flow_contraint:
+  	forall(tenant in Tenants){
+  		forall(flow in Flows){
+  			lambda[tenant][flow] >= flow.minimal_value;  	
+  		}  
   }
   
 
@@ -98,11 +106,10 @@ tuple Flow {
   }
   
   packet_loss_constraint:
-	forall(tenant in Tenants){
-		forall(flow in Flows){
-			prod(arc in Arcs) ( y[arc][tenant][flow]*arc.packet_loss + (1-y[arc][tenant][flow])) >= flow.max_packet_loss;					
-		}
-	}
+  forall(tenant in Tenants)
+	forall(flow in Flows)
+		forall(arc in Arcs)
+			(y[arc][tenant][flow] * (1 - arc.packet_loss)) <= 0.005;
     
  }
  
