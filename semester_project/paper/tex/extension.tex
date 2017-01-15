@@ -1,6 +1,6 @@
 \section{Rozszerzenie}
 
-Po zaimplementowaniu podstawowego modelu postanowiliśmy się podejść do tematu
+Po zaimplementowaniu podstawowego modelu postanowiliśmy podejść do tematu
 rozszerzenia podstawowego problemu na dwa sposoby dodaniu nowych ograniczeń
 oraz zastosowaniu go w innej formie. Zaproponowanym przez nas ograniczeniem jest
 zapewnianie minimlanej wartości przepływu a nowym zastosowaniem jest wprowadzenie
@@ -20,3 +20,15 @@ nowe dane (minimalną liczbę danych per przepływ) oraz dodatkowe ograniczenie:
 \end{equation}
 
 \subsection{Koszt przesyłu danych}
+
+W przypadku nowego zastosowania postanowiliśmy postawić na praktyczne podejście;
+rozszerzylismy model o koszt przesyłanych danych i zmieniliśmy funkcję celu tak,
+by zrównoważyć koszt przepływów:
+\begin{equation}
+  \sum_{t \in T} \max_{f \in F_t} \sum_{a \in A_f} a.cost
+\end{equation}
+
+\subsection{Wyniki roszerzonych modeli}
+Poniżej przedstawiamy porównanie wyników modeli rozszerzonych i podstawowego wyliczonych
+w środowisku CPLEX. Tabela zawiera wyniki dla trzech zestawów danych: sieci małej (4 hosty),
+średniej (6 hostów) i dużej (17 hostów).
