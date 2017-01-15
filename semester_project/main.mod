@@ -5,6 +5,16 @@
  *********************************************/
 
 main {	
+
+//	var gpData = "graph_partition_data_big.dat";
+//	var faData = "flow_allocation_data_big.dat";
+
+//	var gpData = "graph_partition_data_medium.dat";
+//	var faData = "flow_allocation_data_medium.dat";
+	
+	var gpData = "graph_partition_data.dat";
+	var faData = "flow_allocation_data.dat";
+
 	function calculateVariance(array){
 		var sum = 0;
 		for (var i = 0; i<array.length; i++){
@@ -16,12 +26,6 @@ main {
 		for (var i = 0; i<array.length; i++){
 			sum_variance = sum_variance + (array[i] - mean)*(array[i] - mean);		
 		}
-		
-		writeln("Sum: ", sum);
-		writeln("Mean: ", mean);
-		writeln("Sum variance: ", sum_variance);
-		writeln("Sum variance/array.length: ", sum_variance/array.length);
-		writeln("================");
 				
 		return sum_variance/array.length;
 	}
@@ -35,47 +39,24 @@ main {
 		
 		for (var i = 0; i <= max_iter; i++){
 			model.setPoolSolution(i);
-			//writeln("wartosc funkcji celu: ", cplex_object.getObjValue());		
-			//writeln("wartosc funkcji celu iterator: ", i);
 			array[i] = cplex_object.getObjValue();
 			array_indexes[i] = i;
 			array_sorted[i] = cplex_object.getObjValue();
 			array_indexes_sorted[i] = i;
-			//writeln("Adding: ", array[i], " i=", i);
-			//writeln("Adding: ", array_indexes[i], " i=", i);	
 		}
 				
 		array_sorted.sort(compare);
 		for (var i=0; i<array.length; i++){
 			var index = find(array, array_sorted[i]);
-			//writeln("index, ", index);
-			//writeln("array_sorted[i], ", array_sorted[i]);
 			array_indexes_sorted[i] = index;
 				
 		}
-		/*
-		for (var i =0; i < array.length; i++){
-			writeln("aaaa ", array_indexes[i]);
-			writeln("cccc ", array_indexes_sorted[i]);
-			writeln("bbbb ", array[i]);
-		}*/
 		
-/*		
-		for (var i = 0; i <= array.length; i++){
-			//writeln("wartosc funkcji celu iterator: ", i);
-			writeln("element: ", array[i])
-			
-		}*/	
 		return array_indexes_sorted;
 		
 	}
 	
-/*	function sort_function(x, y, array) {
-		if (array[x] < array[y]) return -1;
-		else if (array[x] == array[y]) return 0;
-		else return 1;	
-	}
-*/	function compare(x, y) {
+	function compare(x, y) {
 		
 		if (x < y) return -1; 
 		else if (x == y) 
@@ -95,38 +76,24 @@ main {
 
 	function checkQoSRequirements(model){
    		writeln("Checking QoS requirements");
-   		var sum_lambda = 0;
-   		for (var tenant in model.Tenants){
-   			for (var flow in model.Flows){
-   				sum_lambda = sum_lambda + model.lambda[tenant][flow];		
-   			}   		
-   		}
-   		
-   		if (sum_lambda == 0){
-   			writeln("Lamda = 0 !");
-   			return false;   		
-   		}
-   
-   		return  (checkDelayRequirement(model) && 
-   				checkJitterRequirement(model))
+   		return  (checkLambda(model) && checkDelayRequirement(model) && checkJitterRequirement(model))
    	}
    	
-   	function checkDataRateRequirement(model){
-   	   	for(var arc in model.Arcs){
-		  	for(var tenant in model.Tenants){
-		  		for(var flow in model.Flows){
-		  			if (model.X[arc][tenant][flow] > 0){
-		  				if (model.lambda[tenant][flow] > model.X[arc][tenant][flow]){		  				
-		  					writeln("Check data rate: False");
-		  					return false;		  				
-		  				}		  			
-		  			}	
-		  		}  	
-			}  	
-  		}
-  		
-  		writeln("Check data rate: True");	
-  		return true;
+   	function checkLambda(model){
+   		for(var tenant in model.Tenants){
+   			var sum_lambda = 0;   		
+   			for(var flow in model.Flows){
+   				sum_lambda = sum_lambda + model.lambda[tenant][flow];   			   			
+   			}   
+   			
+   			if (sum_lambda == 0){
+   				writeln("Lamda == 0 for at least one tenant");   			
+   			
+   				return false;   			
+   			}		
+   		}  
+   		
+   		return true; 	
    	}
    	
    	function checkDelayRequirement(model){
@@ -160,12 +127,10 @@ main {
 			  		for (var arc in model.Arcs){
 			  			if (model.X[arc][tenant][flow] > 0.001){
 			  				array[i] = 1.0/model.X[arc][tenant][flow] + model.QueuingDelay;
-			  				writeln("Adding: ", array[i], " i=", i);
 			  				i = i+1;
 			  			}	  		  		
 			  		}
-			  		writeln("Array length:", array.length);
-			  		
+			  					  		
 			  		var jitter = calculateVariance(array);
 			  		
 			  		if (jitter > flow.max_jitter) {
@@ -180,38 +145,9 @@ main {
   		writeln("Check jitter: True");	
 		writeln("Jitter value: ", jitter);		
    	   	return true;
-   	}
-   	
-   	function checkPacketLossRequirement(model){
-   	   	
-   	
-   		for (var tenant in model.Tenants) {
-		  for (var flow in model.Flows) { 
-		  	var prod_packet_loss = 1;	  
-		  
-		    for (var arc in model.Arcs){	    
-		    
-		    	if (model.X[arc][tenant][flow] > 0.001){	   	
-		    		prod_packet_loss = prod_packet_loss * arc.packet_loss;	
-		    	}  
-		    			    
-		    }
-		    
-		    		    
-		    if (Opl.sqrt(prod_packet_loss) < flow.max_packet_loss) {
-		   		writeln("Check packetloss: False");		
-		   		writeln("packet loss value: ", Opl.sqrt(prod_packet_loss), " for tenant ", tenant.id);	    	
-		   		writeln("flow packet loss: ", flow.max_packet_loss);	    
-		    	return false;		    
-		    }
-		  }   
-		}	
-			
-		writeln("Check packetloss: True");		
-   	   	return true;
-  }   	
+   	} 	
 
-	var data_source = new IloOplDataSource("graph_partition_data2.dat");
+	var data_source = new IloOplDataSource(gpData);
 	var current_first_stage_solution = 0;
 	var source = new IloOplModelSource("graph_partition_model.mod");
 	var model_definition = new IloOplModelDefinition(source);
@@ -241,6 +177,9 @@ main {
 		writeln("X: ");
 		writeln(flow_alloc_model.X);
 		writeln("----------");	
+		
+		writeln("x: ");
+		writeln(flow_alloc_model.x);
 	
 		if (checkQoSRequirements(flow_alloc_model)){
 			var tab = "  "; 
@@ -270,7 +209,7 @@ main {
 				flow_alloc_model.setPoolSolution(flow_alloc_stage_solution);
 				thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object);
 			} else {
-				writeln("Brak rozwi�za� dla przep�yw�w: ", flow_alloc_stage_solution);	
+				writeln("Brak rozwiązań dla przepływów: ", flow_alloc_stage_solution);	
 			}
 		 	return false;
 		}
@@ -282,15 +221,14 @@ main {
 		
 		writeln('Rozwiazanie optymalne');		
 		for (var arc in model.x){
-			writeln("krawedz ", arc, model.x[arc]);		
+			writeln("Krawędź: ", arc, model.x[arc]);		
 		}
-		writeln("Wartosc f. celu: ", cplex_object.getObjValue());
-		writeln("max iterator: ", max_iter);
+		writeln("Wartosc funcki celu: ", cplex_object.getObjValue());
 		
 		var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
 		var flow_alloc_cplex_object  = new IloCplex();
 		var flow_alloc_model_definition = new IloOplModelDefinition(flow_alloc_source);
-		var data_source = new IloOplDataSource("flow_allocation_data.dat");
+		var data_source = new IloOplDataSource(faData);
 		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);	
 		
 		flow_alloc_model.addDataSource(data_source);
@@ -303,6 +241,9 @@ main {
 		dataElements.Tenants = flow_alloc_model.Tenants;
 		dataElements.QueuingDelay = flow_alloc_model.QueuingDelay; 
 		dataElements.x = model.result;
+				
+		var flow_alloc_cplex_object  = new IloCplex();
+		var flow_alloc_model = new IloOplModel(flow_alloc_model_definition, flow_alloc_cplex_object);
 		
 		flow_alloc_model.addDataSource(dataElements);
 		flow_alloc_model.generate();
@@ -310,12 +251,12 @@ main {
 		var flow_alloc_stage_solution = 0;
 		
 		if(iteration >= max_iter){
-			writeln('Nie mozna rozwiazac dla zadnej topologii');			
+			writeln("Nie mozna rozwiazac dla zadnej topologii");			
 			return false;	
 		}	
 			
 		if (flow_alloc_cplex_object.solve() && thirdStage(flow_alloc_model, flow_alloc_stage_solution, flow_alloc_cplex_object)){
-			writeln("Jest rozwiazanie wszystkiego!");
+			writeln("Znaleziono rozwiazanie wszystkiego!");
 			return true;
 		} else {
 			secondStage(iteration+1, max_iter, sorted_first_model_solutions);
@@ -323,12 +264,6 @@ main {
 	}
 	
    	var first_model = firstStage();
-   	
 	var sorted_first_model_solutions = sort_solutions(cplex_object.solnPoolNsolns-1);
-	for (var i = 0; i< sorted_first_model_solutions.length; i++){
-		writeln("tablica indexow", sorted_first_model_solutions[i]);
-		
-	}
-		
    	var second_model = secondStage(0, cplex_object.solnPoolNsolns-1, sorted_first_model_solutions);
 }
