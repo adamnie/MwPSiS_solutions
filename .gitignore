@@ -4,6 +4,7 @@
 !*.xml
 !*.mod
 !*.ops
+!*.odp
 !*.dat
 !*.project
 !*.oplproject
