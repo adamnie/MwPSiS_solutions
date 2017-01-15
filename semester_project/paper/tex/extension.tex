@@ -1,0 +1,22 @@
+\section{Rozszerzenie}
+
+Po zaimplementowaniu podstawowego modelu postanowiliśmy się podejść do tematu
+rozszerzenia podstawowego problemu na dwa sposoby dodaniu nowych ograniczeń
+oraz zastosowaniu go w innej formie. Zaproponowanym przez nas ograniczeniem jest
+zapewnianie minimlanej wartości przepływu a nowym zastosowaniem jest wprowadzenie
+kosztu jako głównej metryki decydowania o wykonalności problemu.
+
+\subsection{Zapewnienie minimalnych wartości przepływu}
+
+Istotnym aspektem nie poruszanym przez autorów pracy jest zapewnienie
+minimalnej wartości przepływu. Choć autorzy odnieśli się do problemu "zagłodzenia"
+ruchu poprzez maksymallizację minimalnego przepływu, czyli w praktyce zrównoważeniu
+podziału zasobów pomiędzy przepływy. Natomiast w przypadku jeżeli różnym przepływom
+chcemy zapewnić różne minimalne wartości potrzebne jest rozszerzenie problemu o
+nowe dane (minimalną liczbę danych per przepływ) oraz dodatkowe ograniczenie:
+
+\begin{equation}
+  \forall_{t \in T} \forall_{f \in F_t} \quad \lambda_{tf} \ge f.minimal
+\end{equation}
+
+\subsection{Koszt przesyłu danych}
