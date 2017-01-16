@@ -38,9 +38,15 @@
 			</ref>
 		</config>
 		<config category="opl" default="false" name="GraphPartitionMedium">
+			<ref name="graph_partition_model.mod" type="model">
+			</ref>
 			<ref name="graph_partition_data_medium.dat" type="data">
 			</ref>
-			<ref name="graph_partition_model.mod" type="model">
+		</config>
+		<config category="opl" default="false" name="FlowAllocationBig">
+			<ref name="flow_allocation_model.mod" type="model">
+			</ref>
+			<ref name="flow_allocation_data_big.dat" type="data">
 			</ref>
 		</config>
 	</configs>

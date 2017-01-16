@@ -1,0 +1,53 @@
+\section{Model alokacji przepływu}
+
+Naszym kolejnym krokiem było zaimplementowanie modelu alokacji przepływów, w
+którym funkcją celu jest maksymalizacja minimalnego przepływu, czyli zrównoważenie
+ruchu generowanego przez przepływy dzierżawców na wszystkie dostępne łącza:
+
+\begin{equation}
+  \sum_{n \in N} \max_{\{X_{f,i,j}^n;\forall{(i,j)} \in E_n^f,f \in F^n\}} \min_{f \in F^n}\lambda_f^n
+\end{equation}
+
+W modelu zostało zaimplementowanych pięć ograniczeń. Pierwsze z nich zapewnia,
+że suma wartości przepływów na danym łączu nie przekroczy jego pojemności:
+
+\begin{equation}
+  \sum_{n \in N} \sum_{f \in F^n} X_{f,i,j}^n \le c_{ij}
+\end{equation}
+
+Kolene ograniczenie nazywane konserwacją przepływów zapewnia, że dla danego węzła
+nie należącego do węzła docelowego dla dowolnego przepływu suma wartości wychodzących
+przepływów jest równa sumie wartości przychodzących przepływów plus wartość danego
+przepływu jeśli jest to węzęł źródłowy dla tego przepływu. W innym wypadku suma ta
+równa się zero:
+
+\begin{equation}
+\begin{align*}
+  \sum_{j;(i,j) \in E_n^f} X_{f,i,j}^n &- \sum_{j;(j,i) \in E_n^f} X_{f,i,j}^n = \lambda_f^n \parallel_{\{i=s_f^n\}} \\
+  & \forall{i} \ne d_f^n, f \in F^n, n \in N
+\end{align*}
+\end{equation}
+
+Następne ograniczenie zapewnia, że przepływ nie może zostać rozdzielony na
+dwa lub więcej łączy:
+
+\begin{equation}
+  X_{f,i,j}^n = 0 \quad \forall(i,j) \notin E_n^f, f \in F^n, n \in N
+\end{equation}
+
+Czwarte ograniczenie związane jest z zapewnieniem jakości obsługi. Zapewnia ono, że
+iloczyn straty pakietów na łączach przypisanych do danego przepływu nie przekroczy
+ustalonej maksymalnej wartości:
+
+\begin{equation}
+  \prod_{(i,j) \in E_n^f} p_{f,i,j}^n < p_{n,f}^{max}
+\end{equation}
+
+Ostatnie ograniczenie nie jest opisane przez autorów, zostało dodane przez nas
+na potrzeby naszej struktury danych wejściowych a dokładnie podzielonego grafu pomiędzy
+dzierżawców. Ograniczenie to zapewnia, że dla danego dzierżawcy, każdy jego przepływ
+nie będzie wykorzystywał łącz, które nie są jego:
+
+\begin{equation}
+  \forall_{f \in F^n} X_{f,i,j} = 0 \quad \text{jeśli}\quad x_{i,j}^f = 0
+\end{equation}

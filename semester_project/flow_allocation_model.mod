@@ -109,7 +109,7 @@ tuple Flow {
   forall(tenant in Tenants)
 	forall(flow in Flows)
 		forall(arc in Arcs)
-			(y[arc][tenant][flow] * (1 - arc.packet_loss)) <= 0.005;
+			(y[arc][tenant][flow] * (1 - arc.packet_loss)) <= 0.05;
     
  }
  
