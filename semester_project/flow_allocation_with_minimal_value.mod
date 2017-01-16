@@ -105,12 +105,12 @@ tuple Flow {
 	}  	
   }
   
-  packet_loss_constraint:
-  forall(tenant in Tenants)
-	forall(flow in Flows)
-		forall(arc in Arcs)
-			(y[arc][tenant][flow] * (1 - arc.packet_loss)) <= 0.005;
-    
+//  packet_loss_constraint:
+//  forall(tenant in Tenants)
+//	forall(flow in Flows)
+//		forall(arc in Arcs)
+//			(y[arc][tenant][flow] * (1 - arc.packet_loss)) <= 0.000000000005;
+//    
  }
  
  execute {
@@ -132,5 +132,7 @@ tuple Flow {
 			}
 		}	
 	}
+	
+		
  }
  

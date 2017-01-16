@@ -12,8 +12,8 @@ main {
 //	var gpData = "graph_partition_data_medium.dat";
 //	var faData = "flow_allocation_data_medium.dat";
 	
-	var gpData = "graph_partition_data.dat";
-	var faData = "flow_allocation_data.dat";
+	var gpData = "graph_partition_data_medium.dat";
+	var faData = "flow_allocation_data_medium.dat";
 
 	function calculateVariance(array){
 		var sum = 0;
@@ -97,9 +97,9 @@ main {
    	}
    	
    	function checkDelayRequirement(model){
+   		var sum_delay = 0;
    		for(var tenant in model.Tenants){
 		  	for(var flow in model.Flows){
-		  		var sum_delay = 0;
 		  		for (var arc in model.Arcs){
 		  			if (model.X[arc][tenant][flow] > 0.001){		  			
 		  				sum_delay = sum_delay + (1.0/model.X[arc][tenant][flow]) + model.QueuingDelay;	  			
@@ -115,6 +115,7 @@ main {
 		}
    	   	
    		writeln("Check delay: True");	
+   		writeln("Delay value: ", sum_delay);
    	   	return true;
    	}
    	
@@ -225,7 +226,7 @@ main {
 		}
 		writeln("Wartosc funcki celu: ", cplex_object.getObjValue());
 		
-		var flow_alloc_source = new IloOplModelSource("flow_allocation_model.mod");
+		var flow_alloc_source = new IloOplModelSource("flow_allocation_with_minimal_value.mod");
 		var flow_alloc_cplex_object  = new IloCplex();
 		var flow_alloc_model_definition = new IloOplModelDefinition(flow_alloc_source);
 		var data_source = new IloOplDataSource(faData);
