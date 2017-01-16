@@ -61,7 +61,116 @@ Liczba ograniczeń (4) będzie wynosić NxNxM (technicznie to bardziej $\sum_{i,
 \section{Zadanie 8}
 
 
+\section{Zadanie 9}
 
+$D - zbiór zapotrzebowań$
+
+$K_l - koszt łącza$
+
+$O_l - obciążenie łącza w Mbps$
+
+$L - zbiór łączy$
+
+\subsection{Funkcja celu}
+\begin{equation}
+\min \sum_{l \in L} O_l^2
+\end{equation}
+
+
+\subsection{Ograniczenia}
+
+\begin{equation}
+  \forall_{l \in L} \quad O_l \leq 4
+\end{equation}
+
+\section{Zadanie 18}
+
+\subsection{Oznaczenia}
+$M - $ zbiór lokalizacji anten
+$P - $ zbiór typów anten
+$BW_p - $ przepływność "w dół" anteny p
+$KO_p - $ koszt instalacja anteny p
+$MA_p - $ liczba dostępnych anten w magazynie
+$B - $ minimalna sumaryczna przepływność
+
+\subsection{Zmienne}
+$x_{mp} - $ zmienna binarna, 1 jeżeli w lokalizacja m zainstalowana jest antena p, 0 w innych przypadku
+
+\subsection{Funkcja celu}
+
+\begin{equation}
+  \min \sum_{m \in M} \sum_{p \in p} KO_p * x_{mp}
+\end{equation}
+
+\subsection{Ograniczenia}
+Nie więcej niż 3 typy anten:
+
+\begin{equation}
+   (\sum_{p \in P}(\sum_{m \in M} x_{mp}) == 0) == 0) \leq P-3
+\end{equation}
+
+Zapewnienie minimalnej przepływności:
+
+\begin{equation}
+  \sum_{m \in M} \sum_{p \in P} BW_p * x_{mp} \geq B
+\end{equation}
+
+Co najwyżej jedna antena per lokalizacja:
+\begin{equation}
+  \forall_{m \in M} \sum_{p \in P} x_{mp} \leq 1
+\end{equation}
+
+Anten jest ograniczona liczba:
+
+\begin{equation}
+  \forall_{p \in P} \sum_{m \in M} x_{mp} \leq {MA}_p
+\end{equation}
+
+
+\section{Zadanie 19}
+
+\subsection{Oznaczenia}
+$N -$ zbiór lokalizacji
+
+$M -$ zbiór typów anten
+
+$BW_m -$ przepływność "w dół", realizowana przez antene m
+
+$KO_m -$ koszt inslatacji anteny m
+
+$MA_m -$ liczba dostępnych anten m
+
+$BU$ całkowity dostępny budżet
+
+\subsection{Zmienne}
+$x_{nm}$ - zmienna binarna, 1 jeżeli antena m zamontowana jest w lokalizacji n inaczej 0
+
+
+\subsection{Funkcja celu}
+
+\begin{equation}
+
+  \max \sum_{n \in N} \sum_{m \in M} BW_m * x_nm
+
+\end{equation}
+
+\subsection{Ograniczenia}
+
+Jedna antena per lokalizacja:
+\begin{equation}
+  \forall_{n \in N} \sum_{m \in M} x_{nm} = 1
+\end{equation}
+
+Inwestor nie sra pieniędzmi:
+\begin{equation}
+  (\sum_{n \in N} \sum_{m \in M} x_{nm} * {KO}_m) \leq BU
+\end{equation}
+
+Anten jest ograniczona liczba:
+
+\begin{equation}
+  \forall_{m \in M} \sum_{n \in N} x_{nm} \leq {MA}_m
+\end{equation}
 
 
 \end{document}
