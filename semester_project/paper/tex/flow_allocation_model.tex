@@ -16,7 +16,7 @@ W modelu zostało zaimplementowanych pięć ograniczeń. Pierwsze z nich zapewni
 \end{equation}
 
 Kolene ograniczenie nazywane konserwacją przepływów zapewnia, że dla danego węzła
-nie należącego do węzła docelowego dla dowolnego przepływu suma wartości wychodzących
+niebędącego węzłem docelowym, dla dowolnego przepływu suma wartości wychodzących
 przepływów jest równa sumie wartości przychodzących przepływów plus wartość danego
 przepływu jeśli jest to węzęł źródłowy dla tego przepływu. W innym wypadku suma ta
 równa się zero:
@@ -35,7 +35,7 @@ dwa lub więcej łączy:
   X_{f,i,j}^n = 0 \quad \forall(i,j) \notin E_n^f, f \in F^n, n \in N
 \end{equation}
 
-Czwarte ograniczenie związane jest z zapewnieniem jakości obsługi. Zapewnia ono, że
+Czwarte ograniczenie związane jest z zapewnieniem jakości obsługi. Zapewnia [POWTORZENIE] ono, że
 iloczyn straty pakietów na łączach przypisanych do danego przepływu nie przekroczy
 ustalonej maksymalnej wartości:
 
@@ -44,9 +44,9 @@ ustalonej maksymalnej wartości:
 \end{equation}
 
 Ostatnie ograniczenie nie jest opisane przez autorów, zostało dodane przez nas
-na potrzeby naszej struktury danych wejściowych a dokładnie podzielonego grafu pomiędzy
+na potrzeby naszej struktury danych wejściowych, a dokładniej podzielonego grafu pomiędzy
 dzierżawców. Ograniczenie to zapewnia, że dla danego dzierżawcy, każdy jego przepływ
-nie będzie wykorzystywał łącz, które nie są jego:
+nie będzie wykorzystywał łącz, które do niego nie należą:
 
 \begin{equation}
   \forall_{f \in F^n} X_{f,i,j} = 0 \quad \text{jeśli}\quad x_{i,j}^f = 0

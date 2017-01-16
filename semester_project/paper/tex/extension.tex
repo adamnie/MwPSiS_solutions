@@ -21,8 +21,8 @@ o nowe dane (minimalną liczbę danych dla każdego przepływu) oraz dodatkowe o
 
 \subsection{Koszt przesyłu danych}
 
-W przypadku nowego zastosowania postanowiliśmy postawić na praktyczne podejście;
-rozszerzylismy model o koszt przesyłanych danych i zmieniliśmy funkcję celu tak,
+W przypadku nowego zastosowania postanowiliśmy postawić na praktyczne podejście.
+Rozszerzylismy model o koszt przesyłanych danych i zmieniliśmy funkcję celu tak,
 by zrównoważyć koszt przepływów:
 \begin{equation}
   \sum_{t \in T} \max_{f \in F_t} \sum_{a \in A_f} a.cost
@@ -30,5 +30,5 @@ by zrównoważyć koszt przepływów:
 
 \subsection{Wyniki roszerzonych modeli}
 Poniżej przedstawiamy porównanie wyników modeli rozszerzonych i podstawowego wyliczonych
-w środowisku CPLEX. Tabela zawiera wyniki dla trzech zestawów danych: sieci małej (4 hosty),
-średniej (6 hostów) i dużej (17 hostów).
+w środowisku CPLEX. Tabela zawiera wyniki dla trzech zestawów danych: sieci małej (4 węzły),
+średniej (6 węzłów) i dużej (17 węzłów).
