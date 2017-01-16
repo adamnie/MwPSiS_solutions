@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Zadania podobne do egzaminacyjnych}
+\author{Adam Niedziałkowski}
+\date{16 stycznia 2016}
+
+\begin{document}
+
+\maketitle
+
+\section{Zadanie 6}
+$x_{ij} - $ liczba klientów przypiedzielonych do koncetratora w mieście $j$
+którzy wykupili klasę obsługi $i$
+P - liczba miast
+N - liczba klas obsługi
+
+\begin{equation}
+  \sum_{i=2}^{N} x_{ij} = x_{1j} , j=1,2,...,P
+\end{equation}
+
+To równanie oznacza, że połowa klientów będzie osbsługiwana przez pierwszą klasę obsługi.
+
+\section{Zadanie 7}
+
+
+$N -$ zbiór komórek
+
+$M -$ zbiór zestawów częstotliwości
+
+$a_{ij} - $ macierz sąsiedztwa, 1 jeżeli komórka $i$ sąsiaduje z $j$, 0 w innym przypadku
+
+$S_n - $ zbiór sąsiadów komórki $n$, inaczej dla każdego $i \in N$ takie $j \in N, j \neq i$ że $a_{ij} = 1$
+
+$x_{nm} - $ zmienna binarna mówiąca o tym czy w komórce n wykorzystywana jest czestotliwość m
+
+\subsection{Funkcja celu}
+\begin{equation}
+  \max \sum_{n=1}^N \sum_{m=1}^M (x_{nm} == 0)
+\end{equation}
+
+\subsection{Ograniczenia}
+
+\begin{equation}
+  \forall_{n \in N} \sum_{m=1}^{M} x_{nm} = 1
+\end{equation}
+
+\begin{equation}
+  \forall_{n \in N} \forall_{s \in S_n} \forall_{m \in M} \quad x_{nm} + x_{sm} \le 1
+\end{equation}
+
+\subsection{Liczba zmiennych, ograniczeń}
+
+Liczba zmiennych będzie wynosić NxM (x_{nm})
+
+Liczba ograniczeń (3) będzie wynosić NxM.
+
+Liczba ograniczeń (4) będzie wynosić NxNxM (technicznie to bardziej $\sum_{i,j} a_{ij} x M$, ale pierwsza odpowiedz chyba jest akceptowalna
+
+
+\section{Zadanie 8}
+
+
+
+
+
+\end{document}

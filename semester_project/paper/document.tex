@@ -1,5 +1,7 @@
 \documentclass{article}
+\usepackage{polski}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 
 \title{Wirtualizacja zasobów oraz alokacja przepływów w sieciach sterowanych programowo przy jednoczesnym zapewnieniu wymagań QoS}
 \author{
@@ -19,8 +21,21 @@
 
 \input{./tex/introduction.tex}
 \input{./tex/slicing.tex}
+\input{./tex/flow_allocation_model.tex}
+\input{./tex/main_script.tex}
 \input{./tex/tests.tex}
 \input{./tex/extension.tex}
 \input{./tex/conclusions.tex}
+
+\begin{thebibliography}{9}
+
+\bibitem{lin16}
+  Lin, Shih-Chun and Wang, Pu and Luo, Min,
+  \emph{Jointly Optimized QoS-aware Virtualization and Routing in Software Defined Networks},
+  Comput. Netw. Vol. 96,
+  Elsevier North-Holland, Inc.
+  February 2016.
+
+\end{thebibliography}
 
 \end{document}
