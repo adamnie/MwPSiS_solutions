@@ -83,6 +83,83 @@ $L - zbiór łączy$
   \forall_{l \in L} \quad O_l \leq 4
 \end{equation}
 
+\section{Zadanie 16}
+
+
+\subsection{Zmienne}
+$X_i - $ wartość przepływu na łączu i
+
+\subsection{Funkcja celu}
+
+\begin{equation}
+  \min \sum_{i} d(1,X_i)
+\end{equation}
+
+\subsection{Ograniczenia}
+
+Przepustowość:
+
+\begin{equation}
+  \sum_{i} X = 0.95
+\end{equation}
+
+
+\subsection{Czy problem jest wypukły czy wklęsły?}
+Strzelam, że wypukły :) Inaczej nie była by to linearyzacja. Trzeba by to pewnie
+narysować, bo ani monotoniczność, ani założenie jakieś konkretnej wartości nic nie da.
+
+Matematycznie to trzeba by pewnie udowodnić że:
+
+\begin{equation}
+  \forall_{c} \forall_{t_1, t_2, t_1 < t_2} \quad \bar {d}(c, t_1) \leq \bar{d}(c, t_2)
+\end{equation}
+
+
+\section{Zadanie 17}
+
+$E -$ zbiór miast na wschodnim wybrzeżu
+$W -$ zbiór miast na zachodnim wybrzeżu
+
+
+
+\subsection{Zmienne}
+
+$x -$ zmienna binarna, która mówi czy korzystamy z huba w Dallas (1) czy w Chicago (0)
+$y -$ zmienna binarna, która mówi czy korzystamy z routera w danym mieście
+
+\subsection{Funkcja kosztu}
+\begin{equation}
+  \min \sum_{i \in E } \sum_{j \in E, i!=j}(x*(y_i * KO_{id} + y_j*KO_{dj}) + (1-x) * (y_i*KO_{ic} + y_j*KO_{cj})
+\end{equation}
+gdzie:
+
+$d - $ id miasta Dallas
+
+$c - $ id miasta Chicago
+
+$i \in E, i - $ id miasta ze wschodniego wybrzeża
+
+$j \in W, j - $ id miasta z zachodniego wybrzeża
+
+\subsection{Ograniczenia}
+
+Jedno miasto na wschodnim:
+
+\begin{equation}
+  \sum_{i \in E} y_i = 1
+\end{equation}
+
+
+I jedno na zachodnim:
+
+\begin{equation}
+  \sum_{j \in W} y_j = 1
+\end{equation}
+
+\subsection{komentarz}
+Pewnie chodzi tu bardziej o zastosowanie cut constraint (patrz homework 3 spanning tree) i sprawdzanie cardynalności zbiorów E i W, ale to powinno przejść.
+
+
 \section{Zadanie 18}
 
 \subsection{Oznaczenia}
@@ -149,9 +226,7 @@ $x_{nm}$ - zmienna binarna, 1 jeżeli antena m zamontowana jest w lokalizacji n 
 \subsection{Funkcja celu}
 
 \begin{equation}
-
-  \max \sum_{n \in N} \sum_{m \in M} BW_m * x_nm
-
+  \max \sum_{n \in N} \sum_{m \in M} BW_m * x_{nm}
 \end{equation}
 
 \subsection{Ograniczenia}
