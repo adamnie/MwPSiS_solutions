@@ -12,8 +12,8 @@ main {
 //	var gpData = "graph_partition_data_medium.dat";
 //	var faData = "flow_allocation_data_medium.dat";
 	
-	var gpData = "graph_partition_data_medium.dat";
-	var faData = "flow_allocation_data_medium.dat";
+	var gpData = "graph_partition_data_big.dat";
+	var faData = "flow_allocation_data_big.dat";
 
 	function calculateVariance(array){
 		var sum = 0;
