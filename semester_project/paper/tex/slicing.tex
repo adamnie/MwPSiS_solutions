@@ -1,3 +1,29 @@
 \section{Podział zasobów}
 
-Pierwszą częścią algorytmu zaproponowanego przez Lin i in. jest podział sieci pomiędzy dzierżawców (klientów) tak, aby możliwie ich od siebie odizolować. Dopiero na tak przygotowanej, podzielonej sieci dokonuje się alokacji przepływów oraz sprawdzenia wymagań dotyczących parametrów Quality of Service.
+Pierwszą częścią algorytmu zaproponowanego w [1] jest podział sieci pomiędzy dzierżawców (klientów) tak, aby możliwie ich od siebie odizolować. Dopiero na tak przygotowanej, podzielonej sieci dokonuje się alokacji przepływów oraz sprawdzenia wymagań dotyczących parametrów Quality of Service. \newline
+
+Celem optymalizacji w pierwszym modelu jest maksymalna izolacja infrastruktury wykorzystywanej przez różnych dzierżawców, co można osiągnąć np. przez minimalizację łącz współdzielonych przez różnych klientów:
+
+\begin{equation}
+  \min \sum_{t_{1} \in T} \sum_{t_{2} \in T} \sum_{a \in A} x_{at_{1}} x_{at_{2}}
+\end{equation}
+
+W celu zapewnienia łączności każdego z węzłów z dowolnym innym dodano ograniczenia powodujące zbudowanie drzewa rozpinającego na grafie:
+
+\begin{equation}
+  \forall_{t \in T} \sum_{a \in A} x_{at} \ge N-1
+\end{equation}
+
+\begin{equation}
+  \forall_{t \in T} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \sum_{a \in S_{n}} x_{at} \ge 1
+\end{equation}
+
+gdzie $Z$ to zbiór podgrafów $V$ a $S_{n}$ to zbiór wszystkich łącz mających swój początek w $Z$ a koniec w $V \setminus Z$. Powyższe ujęcie problemu zbudowania drzewa rozpinającego znane jest jako \textit{cutset formulation} i zapewnia, że w każdym zbudowanym drzewie wszystkie węzły będą miały łączność z dowolnym innym.
+
+Z uwagi na to, że implementacja wymagała wykorzystania dwóch łącz dla każdego połączenia, należało dodać również ograniczenie zabraniające jakiemukolwiek dzierżawcy korzystanie z łącza tylko w jedną stronę:
+
+\begin{equation}
+  \forall_{t \in T} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \forall_{a \in S_{n}} x_{at} \eq x_{a't}
+\end{equation}
+
+gdzie $x_{a't}$ oznacza łącze komplementarne do $x_{at}$ łączące te same węzły w drugą stronę, tj $\forall_{a \in A: a = (i,j)} \exists_{a' \in A: a' = (j,i)}$.
