@@ -1,1 +1,24 @@
 \section{testy}
+Implementację opisanych wcześniej modeli testowaliśmy na trzech różnych topologiach - małej, średniej oraz
+dużej. Początkowo sprawdzaliśmy działanie modeli oraz skryptu tylko na bardzo małej topologii. Było taki
+ze względu na możliwość szybkiej weryfikacji poprawności działania kodu, a przy większych
+topologiach nie bylibyśmy w stanie jednoznacznie określić czy dany model działa tak, jak zakładaliśmy.
+
+Testowanie polegało na sprawdzaniu czy zostały spełnione zakładane przez nas wcześniej warunki. Początkowo
+były to sprawdzenie, czy każdy z dzierżawców posiada połączenie do wszystkich węzłów oraz czy liczba 
+wspólnych krawędzi dla wszystkich dzierżawców jest jak najmniejsza. Stopień trudności w weryfikowaniu 
+poprawności rozwiązania rósł wraz z każdym dodamym dzierżawcą, węzłem lub połączeniem, dlatego większość 
+testów przeprowadziliśmy dla topologii składającej się z sześciu węzłów, dwóch dzierżawców i ośmiu połączeń. 
+Była ona na tyle rozbudowana, że na pewnych etapach projektu pojawiały się błędy w działaniu naszych modeli, 
+a z drugiej strony na tyle przejrzysta, że byliśmy w stanie w niedługim czasie zweryfikować poprawność działania 
+modeli.
+
+Na podstawie przeprowadzonych testów stwierdzamy, że nasza implementacja działa w ten sam sposób,
+w jaki zamierzaliśmy. Partycjonowanie sieci odbywa się prawidłowo - nie zdarza się, aby któryś z dzierżawców
+nie miał dostępu do któregoś z węzłów. Liczba wspólnych krawędzi jest najmniejsza z możliwych - tutaj pewność 
+dobrego działania mamy tylko dla mniejszych topologii, w których byliśmy w stanie ręcznie sprawdzić wszystkie 
+możliwości i określić minimalną liczbę wspólnych krawędzi. Kolejną testowaną funkcjonalnością było 
+przydzielanie łączy do konkretnych przepływów. Sprawdzaliśmy, czy przez każde łącze płynie taki ruch, który 
+będzie w stanie się w nim zmieścić bez strat wynikających z jego łącza - 
+ten warunek także był spełniony dla naszych przypadków testowych.
+
