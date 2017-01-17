@@ -5,17 +5,17 @@ Pierwszą częścią algorytmu zaproponowanego w [1] jest podział sieci pomięd
 Celem optymalizacji w pierwszym modelu jest maksymalna izolacja infrastruktury wykorzystywanej przez różnych dzierżawców, co można osiągnąć np. przez minimalizację łącz współdzielonych przez różnych klientów:
 
 \begin{equation}
-  \min \sum_{t_{1} \in T} \sum_{t_{2} \in T} \sum_{a \in A} x_{at_{1}} x_{at_{2}}
+  \min \sum_{n_{1} \in N} \sum_{n_{2} \in N} \sum_{a \in A} x_{an_{1}} x_{an_{2}}
 \end{equation}
 
 W celu zapewnienia łączności każdego z węzłów z dowolnym innym dodano ograniczenia powodujące zbudowanie drzewa rozpinającego na grafie:
 
 \begin{equation}
-  \forall_{t \in T} \sum_{a \in A} x_{at} \ge N-1
+  \forall_{n \in N} \sum_{a \in A} x_{an} \ge N-1
 \end{equation}
 
 \begin{equation}
-  \forall_{t \in T} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \sum_{a \in S_{n}} x_{at} \ge 1
+  \forall_{n \in N} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \sum_{a \in S_{n}} x_{an} \ge 1
 \end{equation}
 
 gdzie $Z$ to zbiór podgrafów $V$ a $S_{n}$ to zbiór wszystkich łącz mających swój początek w $Z$ a koniec w $V \setminus Z$. Powyższe ujęcie problemu zbudowania drzewa rozpinającego znane jest jako \textit{cutset formulation} i zapewnia, że w każdym zbudowanym drzewie wszystkie węzły będą miały łączność z dowolnym innym.
@@ -23,7 +23,7 @@ gdzie $Z$ to zbiór podgrafów $V$ a $S_{n}$ to zbiór wszystkich łącz mający
 Z uwagi na to, że implementacja wymagała wykorzystania dwóch łącz dla każdego połączenia, należało dodać również ograniczenie zabraniające jakiemukolwiek dzierżawcy korzystanie z łącza tylko w jedną stronę:
 
 \begin{equation}
-  \forall_{t \in T} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \forall_{a \in S_{n}} x_{at} \eq x_{a't}
+  \forall_{n \in N} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \forall_{a \in S_{n}} x_{an} \eq x_{a'n}
 \end{equation}
 
-gdzie $x_{a't}$ oznacza łącze komplementarne do $x_{at}$ łączące te same węzły w drugą stronę, tj. $\forall_{a \in A: a = (i,j)} \exists_{a' \in A: a' = (j,i)}$.
+gdzie $x_{a'n}$ oznacza łącze komplementarne do $x_{an}$ łączące te same węzły w drugą stronę, tj. $\forall_{a \in A: a = (i,j)} \exists_{a' \in A: a' = (j,i)}$.
