@@ -32,3 +32,56 @@ by zrównoważyć koszt przepływów:
 Poniżej przedstawiamy porównanie wyników modeli rozszerzonych i podstawowego wyliczonych
 w środowisku CPLEX. Tabela zawiera wyniki dla trzech zestawów danych: sieci małej (4 węzły),
 średniej (6 węzłów) i dużej (17 węzłów).
+
+\begin{table}[!h]
+\centering
+\caption{Mała topologia}
+\label{my-label}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Mała topologia      & \multicolumn{1}{l|}{model podstawowy} & \multicolumn{1}{l|}{model z minimalnym przepływem} & \multicolumn{1}{l|}{model z minimalnym kosztem} \\ \hline
+Jitter              & 0                                     & 0                                                  & 0                                               \\ \hline
+Delay               & 2,9                                   & 2,9                                                & 4,83                                            \\ \hline
+Sumaryczny przepływ & 10                                    & 10                                                 & 5                                               \\ \hline
+czas wykonania      & 31                                    & 37                                                 & 22                                              \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\caption{Średnia topologia}
+\label{my-label}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Średnia topologia   & \multicolumn{1}{l|}{model podstawowy} & \multicolumn{1}{l|}{model z minimalnym przepływem} & \multicolumn{1}{l|}{model z minimalnym kosztem} \\ \hline
+Jitter              & 0,0023                                & 0,0004                                             & 0                                               \\ \hline
+Delay               & 1,92921099                            & 2,45                                               & 3,3                                             \\ \hline
+Sumaryczny przepływ & 50                                    & 50                                                 & 2                                               \\ \hline
+czas wykonania      & 71                                    & 88                                                 & 89                                              \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\caption{Duża topologia}
+\label{my-label}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Duża topologia      & \multicolumn{1}{l|}{model podstawowy} & \multicolumn{1}{l|}{model z minimalnym przepływem} & \multicolumn{1}{l|}{model z minimalnym kosztem} \\ \hline
+Jitter              & 6,51E-05                              & 6,51E-05                                           & 4,93E-32                                        \\ \hline
+Delay               & 3,57498538                            & 3,82498538                                         & 4,83                                            \\ \hline
+Sumaryczny przepływ & 80                                    & 80                                                 & 5                                               \\ \hline
+czas wykonania      & 917096                                & 908099                                             & 908099                                          \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Interpretacja wyników}
+
+Jak wynika z danych zamieszczonych w powyższych tabelach model podstawowy i model z zapewnioną
+wartością minimalnego przepływu dają bardzo podobne wyniki wszystkich parametrów. Są one bardzo
+satysfakcjonujące ponieważ nasz model ma taką samą efektywność jak model oryginalny, daje natomiast
+dodatkową elastyczność poprzez zróżnicowanie wymagań dla poszczególnych przepływów. Pewne różnice można
+zaobserwować pomiędzy wartościami parametrów dla modelu zorientowanego na koszt a tymi, które maksymalizują
+wartość przepływu. Jest to oczywiście rezultat oczekiwany, gdyż koszt i przeływność w takim ujęciu
+są proporcjonalne, wobec tego gdy minimalizując koszt minimalizujemy również wartość przepływu. Dane potwierdzają więc,
+że model minimalizujący koszty przepływów działa tak jak zakładano.
