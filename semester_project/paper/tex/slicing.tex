@@ -23,7 +23,7 @@ gdzie $Z$ to zbiór podgrafów $V$ a $S_{n}$ to zbiór wszystkich łącz mający
 Z uwagi na to, że implementacja wymagała wykorzystania dwóch łącz dla każdego połączenia, należało dodać również ograniczenie zabraniające jakiemukolwiek dzierżawcy korzystanie z łącza tylko w jedną stronę:
 
 \begin{equation}
-  \forall_{n \in N} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \forall_{a \in S_{n}} x_{an} \eq x_{a'n}
+  \forall_{n \in N} \forall_{Z \in V: Z \subset V, Z \neq \emptyset } \forall_{a \in S_{n}} x_{an} = x_{a'n}
 \end{equation}
 
 gdzie $x_{a'n}$ oznacza łącze komplementarne do $x_{an}$ łączące te same węzły w drugą stronę, tj. $\forall_{a \in A: a = (i,j)} \exists_{a' \in A: a' = (j,i)}$.
