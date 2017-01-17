@@ -83,6 +83,45 @@ $L - zbiór łączy$
   \forall_{l \in L} \quad O_l \leq 4
 \end{equation}
 
+\section{Zadanie 14}
+
+\subsection{Funkcja celu}
+
+\begin{equation}
+  \min y(x) = \min (100 * (x > 0) + 10 * x )
+\end{equation}
+
+\subsection{Ograniczenia}
+\begin{equation}
+  0 \leq x \leq 20
+\end{equation}
+
+\section{Zadanie 15}
+
+\subsection{Funkcja celu}
+
+\begin{equation}
+  \min y(x) = \min ( \quad(x > 0) * 100 + (x > 10) * 200 \quad)
+\end{equation}
+
+A ładniej:
+
+\begin{equation}
+  \[y(x) = \left\{
+  \begin{array}{lr}
+    0 & : x = 0 \\
+    100 & : 0 < x \leq 10 \\
+    300 & : x > 10
+  \end{array}
+\right.
+\]
+\end{equation}
+
+\subsection{Ograniczenia}
+\begin{equation}
+  0 \leq x \leq 20
+\end{equation}
+
 \section{Zadanie 16}
 
 
@@ -114,6 +153,12 @@ Matematycznie to trzeba by pewnie udowodnić że:
   \forall_{c} \forall_{t_1, t_2, t_1 < t_2} \quad \bar {d}(c, t_1) \leq \bar{d}(c, t_2)
 \end{equation}
 
+Albo bardziej żmudna opcja, czyli sprawdzamy co się dzieje wokół punktów sklejenia funkcji. Trzeba by podzielić równanie przez $c$ (możemy by c jest stałą i $c >0$).
+I potem dla nowej zmiennej $z = \frac{t}{c}$ udowodnić, że w każdym z tych punktów:
+
+\begin{equation}
+    \forall_{z_1, z_2} : z_1 \geq z2 => f(z_1) \geq f(z_2)
+\end{equation}
 
 \section{Zadanie 17}
 
@@ -158,7 +203,6 @@ I jedno na zachodnim:
 
 \subsection{komentarz}
 Pewnie chodzi tu bardziej o zastosowanie cut constraint (patrz homework 3 spanning tree) i sprawdzanie cardynalności zbiorów E i W, ale to powinno przejść.
-
 
 \section{Zadanie 18}
 
